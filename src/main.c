@@ -21,7 +21,11 @@ int main()
             while (s_line[i])
             {
                 if (!lexer(&test, s_line[i], NULL))
+                {
+                    free(test);
+                    test = NULL;
                     break;
+                }
                 i++;
             }
             

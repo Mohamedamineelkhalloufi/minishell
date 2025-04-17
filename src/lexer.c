@@ -47,7 +47,7 @@ int check_redirections(char **p_line)
     int i;
 
     i = 0;
-    if(p_line[0] && ft_strchr("<>", p_line[0][0]))
+    if(p_line[0] && ft_strchr("<>", p_line[0][0]) && !p_line[1])
         return (0);
     while(p_line[i])
     {

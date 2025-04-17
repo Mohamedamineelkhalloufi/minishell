@@ -6,122 +6,119 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 21:30:33 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/04/16 13:08:24 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/04/17 22:09:45 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_word(char const *s, char c)
+static int	is_quote(char c)
 {
-	char q;
-	int	count;
-	int	i;
+	return (c == '\'' || c == '\"');
+}
 
-	count = 0;
-	i = 0;
+static int	skip_quote(const char *s, int i)
+{
+	char	quote = s[i++];
+
+	while (s[i] && s[i] != quote)
+		i++;
+	if (s[i] == quote)
+		i++;
+	return (i);
+}
+
+static int	get_word_len(const char *s, char sep)
+{
+	int	i = 0;
+
+	while (s[i] && s[i] != sep)
+	{
+		if (is_quote(s[i]))
+			i = skip_quote(s, i);
+		else
+			i++;
+	}
+	return (i);
+}
+
+static int	count_words(const char *s, char sep)
+{
+	int	i = 0;
+	int	count = 0;
+
 	while (s[i])
 	{
-		while (s[i] && s[i] == c)
+		while (s[i] == sep)
 			i++;
-		if (s[i])
-			count++;
-		while (s[i] && s[i] != c && s[i] != '\'' && s[i] != '\"')
-				i++;
-		if (s[i] == '\'' || s[i] == '\"')
-		{
-			q = s[i];
-			i++;
-			while (s[i] && s[i] != q)
-				i++;
-			while (s[i] && s[i] != c)
-				i++;
-		}
+		if (!s[i])
+			break;
+		count++;
+		i += get_word_len(&s[i], sep);
 	}
 	return (count);
 }
 
-static char	*ft_create_word(char const *str, char c, int i)
+static char	*copy_word(const char *s, int len)
 {
-	char	*dest;
-	char	q;
-	int		l;
+	char	*word = (char *)malloc(len + 1);
+	int		i = 0;
+	int		j = 0;
+	char	quote;
 
-	l = i;
-	while (str[l] && str[l] != c && str[l] != '\'' && str[l] != '\"')
-		l++;
-	if (str[l] == '\'' || str[l] == '\"')
-	{
-		q = str[l];
-		l++;
-		while (str[l] && str[l] != q)
-			l++;	
-		while (str[l] && str[l] != c)
-			l++;
-	}
-	dest = (char *)malloc(sizeof(char) * (l - i)+ 1);
-	if (!dest)
+	if (!word)
 		return (NULL);
-	l = 0;
-	while (str[i] && str[i] != c && str[i] != '\'' && str[i] != '\"')
-		dest[l++] = str[i++];
-	if (str[i] == '\'' || str[i] == '\"')
+	while (i < len)
 	{
-		q = str[i];
-		dest[l++] = str[i];
-		i++;
-		while (str[i] && str[i] != q)
-			dest[l++] = str[i++];
-		while (str[i] && str[i] != c)
-			dest[l++] = str[i++];
+		if (is_quote(s[i]))
+		{
+			quote = s[i++];
+			word[j++] = quote;
+			while (s[i] && s[i] != quote)
+				word[j++] = s[i++];
+			if (s[i] == quote)
+				word[j++] = s[i++];
+		}
+		else
+			word[j++] = s[i++];
 	}
-	dest[l] = '\0';
-	return (dest);
+	word[j] = '\0';
+	return (word);
 }
 
-static void	*ft_free(char **split, int i)
+static void	*free_all(char **arr, int count)
 {
-	while (--i)
-	free(split[i]);
-	free(split);
+	while (--count >= 0)
+		free(arr[count]);
+	free(arr);
 	return (NULL);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(const char *s, char sep)
 {
-	char	**dest;
-	char	q;
-	int		i;
-	int		l = 0;
+	char	**res;
+	int		i = 0;
+	int		j = 0;
+	int		len;
 
 	if (!s)
-	return (NULL);
-	i = 0;
-	dest = (char **)malloc(sizeof(char *) * (count_word(s, c) + 1));
-	if (!dest)
-	return (NULL);
-	while (s[l])
+		return (NULL);
+	res = malloc(sizeof(char *) * (count_words(s, sep) + 1));
+	if (!res)
+		return (NULL);
+	while (s[i])
 	{
-		while (s[l] && s[l] == c)
-			l++;
-		if (s[l])
-		{
-			dest[i++] = ft_create_word(s, c, l);
-			if (dest[i - 1] == NULL)
-				return (ft_free(dest, i));
-			while (s[l] && s[l] != c && s[l] != '\'' && s[l] != '\"')
-				l++;
-			if (s[l] && (s[l] == '\'' || s[l] == '\"'))
-			{
-				q = s[l];
-				l++;
-				while (s[l] && s[l] != q)
-					l++;
-				while (s[l] && s[l] != c)
-					l++;
-			}	
-		}
+		while (s[i] == sep)
+			i++;
+		if (!s[i])
+			break;
+		len = get_word_len(&s[i], sep);
+		res[j] = copy_word(&s[i], len);
+		if (!res[j])
+			return (free_all(res, j));
+		i += len;
+		j++;
 	}
-	dest[i] = NULL;
-	return (dest);
+	res[j] = NULL;
+	return (res);
 }
