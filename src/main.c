@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int main()
 {
@@ -40,8 +40,16 @@ int main()
             printf("\n");
             while (lol)
             {
-                printf("file_num[ %s ]\n", lol->file_num);
-                printf("in_out_app[ %d ]\n", lol->type);
+                printf("file_num[ %s ] --> ", lol->file_num);
+                if (lol->type == 0)
+                    printf("type_file [ FILE_IN ]");
+                else if (lol->type == 1)
+                    printf("type_file [ FILE_OUT ]");
+                else if (lol->type == 2)
+                    printf("type_file [ FILE_APPEND ]");
+                else
+                    printf("type_file [ FILE_HEREDOC ]");
+                printf(" --> place [ %d ]\n", lol->p);
                 lol = lol->next;
             }
             printf("-------------------------------------------\n");

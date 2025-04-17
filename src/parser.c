@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 t_node *init_node(int num_cmd)
 {
@@ -14,8 +14,6 @@ t_node *init_node(int num_cmd)
     new_node->next = NULL;
     return (new_node);
 }
-
-#include "minishell.h"
 
 t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 {
@@ -35,7 +33,7 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	{
 		if (ft_strchr("<>", cmd[i][0]) && cmd[i + 1])
 		{
-			new_node->file = creat_file(new_node->file, cmd[i + 1], cmd[i]);
+			new_node->file = creat_file(new_node->file, cmd[i + 1], cmd[i], i );
 			i += 2;
 		}
 		else
@@ -51,7 +49,7 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	return (head);
 }
 
-t_redi *creat_file(t_redi *head, char *file_num, char *check)
+t_redi *creat_file(t_redi *head, char *file_num, char *check, int p)
 {
     t_redi *new_redi;
     t_redi *stor_head;
@@ -63,27 +61,28 @@ t_redi *creat_file(t_redi *head, char *file_num, char *check)
     if (check_split(check, 0, '\0') == 1)
     {
         new_redi->file_num = file_num;
-        new_redi->type = 1;
-        new_redi->next = NULL;
+        new_redi->type = FILE_OUT;
+        new_redi->p = p;
     }
     if (check_split(check, 0, '\0') == 2)
     {
         new_redi->file_num = file_num;
-        new_redi->type = 2;
-        new_redi->next = NULL;
+        new_redi->type = FILE_APPEND;
+        new_redi->p = p;
     }
     if (check_split(check, 0, '\0') == 3)
     {
         new_redi->file_num = file_num;
-        new_redi->type = 3;
-        new_redi->next = NULL;
+        new_redi->type = FILE_IN;
+        new_redi->p = p;
     }
     if (check_split(check, 0, '\0') == 4)
     {
         new_redi->file_num = file_num;
-        new_redi->type = 4;
-        new_redi->next = NULL;
+        new_redi->type = FILE_HEREDOC;
+        new_redi->p = p;
     }
+    new_redi->next = NULL;
     if (!head)
         return (new_redi);
     stor_head = head;

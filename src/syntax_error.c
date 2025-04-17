@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 //had lft tatchof lina dak line wash fih << >> < > bash nsplitiw bih
 int check_split(char *line, int i, char q)

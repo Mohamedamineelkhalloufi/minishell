@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int lexer(t_node **test, char *s_line ,char **p_line)
 {
@@ -65,7 +65,7 @@ int check_redirections(char **p_line)
         }
         i++;
     }
-    if(p_line[i - 1] && ft_strchr("<>", p_line[i - 1][0]))
+    if(i > 0 && p_line[i - 1] && ft_strchr("<>", p_line[i - 1][0]))
         return (0);
     return (1);
 }
