@@ -1,47 +1,5 @@
 #include "minishell.h"
 
-int len_forma(char *line)
-{
-    int i = 0;
-    int l = 0;
-    while (line[i])
-    {
-        if (ft_strchr("<>",line[i]))
-        {
-            l += 2; 
-            while (line[i] && ft_strchr("<>",line[i]))
-                i++;
-        }
-        i++;
-    }
-    return (l + i);
-}
-
-char *fix_line(char *line)
-{
-    char *new_line = NULL;
-    int i = 0;
-    int l = 0;
-
-    new_line = malloc((len_forma(line) * sizeof(char)) + 1);
-    if(!new_line)
-        return(NULL);
-    while (line[i])
-    {
-        if (ft_strchr("<>",line[i]))
-        {
-            new_line[l++] = ' ';
-            while (line[i] && ft_strchr("<>",line[i]))
-                new_line[l++] = line[i++];
-            new_line[l++] = ' ';
-        }
-        new_line[l++] = line[i++];
-    }
-    new_line[l] = '\0';
-    return (new_line);
-}
-
-
 int main()
 {
     char *line;
@@ -55,16 +13,18 @@ int main()
             return 0;
         add_history(line);
         int i = 0;
-        if (d_quote(line, 0, 0, 0) == 0 || check_pipe(line) == 0)
+        if (d_quote(line, 0, 0, 0) == 0 || !check_pipe(line))
             printf(" Dash@Ameed: syntax error near unexpected\n");
         else
         {
             s_line = ft_split(line, '|');
             while (s_line[i])
             {
-                lexer(&test, s_line[i], NULL);
+                if (!lexer(&test, s_line[i], NULL))
+                    break;
                 i++;
             }
+            
         } 
 
         t_node *test_test = test;

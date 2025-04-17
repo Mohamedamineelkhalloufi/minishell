@@ -39,14 +39,15 @@ int d_quote(char *line, int dquote, int quote, int i)
     {
         if (line[i] == '\'' || line[i] == '\"')
         {
-            if (line[i] == '\"')
+            q = line[i++];
+            if (q == '\"')
                 dquote++;
-            if (line[i] == '\'')
+            else
                 quote++;
-            q = line[i];
-            i++;
             while (line[i] && line[i] != q)
                 i++;
+            if (line[i] == '\0')
+                break;
             if (line[i] == '\"')
                 dquote++;
             if (line[i] == '\'')
@@ -59,52 +60,58 @@ int d_quote(char *line, int dquote, int quote, int i)
     return (1);
 }
 
+
 //had lft tatchof lina wash line tibda oula tisali b | oula fih joj dyal | mtab3in
 
-int check_pipe(char *line)
-{
-    int i;
+int check_pipe(char *line)  
+{  
+    int i = 0;
 
-    i = 0;
-    while (line[i] && line[i] == ' ')
-        i++;
-    if (line[i] && line[i] == '|')
-        return (0);
-    i = if_check_pipe(line, i, '\0');
-    if(i == -1)
-        return (0);
-    i--;
-    while (line[i] && line[i] == ' ')
-        i--;
-    if (line[i] && line[i] == '|')
-        return (0);
-    return (1);
-}
-int if_check_pipe(char *line, int i, char q)
-{
-    while (line[i])
-    {
-        if (line[i] == '\'' || line[i] == '\"')
-        {
-            q = line[i++];
-            while (line[i] && line[i] != q)
-                i++;
-            i++;
-        }
-        if (line[i] == '|')
-        {
-            i++;
-            if (line[i] && line[i] == '|')
-                return (-1);
-            while (line[i] && line[i] == ' ')
-            {
-                i++;
-                if (line[i] && line[i] == '|')
-                    return (-1);
-            }
-        }
-        else
-            i++;
-    }
-    return (i);
+    while (line[i] && line[i] == ' ')  
+        i++;  
+
+    if (line[i] && line[i] == '|')  
+        return (0);  
+
+    i = if_check_pipe(line, i, '\0');  
+    if (i == -1)  
+        return (0);  
+    i--;  
+    while (i >= 0 && line[i] == ' ')
+        i--;  
+
+    if (i >= 0 && line[i] == '|')
+        return (0);  
+
+    return (1);  
+}  
+
+int if_check_pipe(char *line, int i, char q)  
+{  
+    while (line[i])  
+    {  
+        if (line[i] == '\'' || line[i] == '\"')  
+        {  
+            q = line[i++];  
+            while (line[i] && line[i] != q)  
+                i++;  
+            if (line[i])
+                i++;  
+        }  
+        else if (line[i] == '|')  
+        {  
+            i++;  
+            if (line[i] && line[i] == '|')  
+                return (-1);  
+            while (line[i] && line[i] == ' ')  
+            {  
+                i++;  
+                if (line[i] && line[i] == '|')  
+                    return (-1);  
+            }  
+        }  
+        else  
+            i++;  
+    }  
+    return (i);  
 }
