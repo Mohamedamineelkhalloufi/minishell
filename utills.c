@@ -1,6 +1,25 @@
 #include "../minishell.h"
 
-static char *get_env_value(const char *key, char **envp)
+void envp_dup(char **envp)
+{
+	int i;
+	char **str_env;
+	int env_len;
+
+	i = 0;
+	while(envp[i])
+		i++;
+	env_len = i;
+	str_env = (char **)malloc(env_len * sizeof(char *));
+
+	i = 0;
+	while(i < env_len)
+		str_env[i] = ft_strdup(envp[i++]);
+	t_node->my_envp = str_env;
+	free(str_env);
+}
+
+char *get_env_value(const char *key, char **envp)
 {
 	int		i = 0;
 	size_t	key_len = ft_strlen(key);
@@ -17,7 +36,7 @@ static char *get_env_value(const char *key, char **envp)
 void error_exit(const char *msg)
 {
     perror(msg);
-    exit(EXIT_FAILURE);
+    exit(-1);
 }
 
 char *resolve_path(char *command, char **envp)

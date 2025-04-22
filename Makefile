@@ -4,8 +4,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror  #-g3 -fsanitize=address
 
-SRC = main.c lexer.c parser.c syntax_error.c  handel_pipe.c \
-	redirctions.c utills.c
+SRC = main.c lexer.c parser.c syntax_error.c 
 
 OBJ = $(SRC:.c=.o)
 

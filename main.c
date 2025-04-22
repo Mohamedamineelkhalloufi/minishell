@@ -7,6 +7,26 @@ int main(int ac, char **av, char **envp)
     char *line;
     char **s_line = NULL;
 
+    printf(RED);
+	printf("\t ███▄ ▄███▓ ██▓ ███▄    █  ██▓  ");
+	printf("██████  ██░ ██ ▓█████  ██▓     ██▓    \n");
+	printf("\t▓██▒▀█▀ ██▒▓██▒ ██ ▀█   █ ▓██▒▒█");
+	printf("█    ▒ ▓██░ ██▒▓█   ▀ ▓██▒    ▓██▒    \n");
+	printf("\t▓██    ▓██░▒██▒▓██  ▀█ ██▒▒██▒░ ");
+	printf("▓██▄   ▒██▀▀██░▒███   ▒██░    ▒██░    \n");
+	printf("\t▒██    ▒██ ░██░▓██▒  ▐▌██▒░██░  ");
+	printf("▒   ██▒░▓█ ░██ ▒▓█  ▄ ▒██░    ▒██░    \n");
+	printf("\t▒██▒   ░██▒░██░▒██░   ▓██░░██░▒█");
+	printf("█████▒▒░▓█▒░██▓░▒████▒░██████▒░██████▒\n");
+	printf("\t░ ▒░   ░  ░░▓  ░ ▒░   ▒ ▒ ░▓  ▒ ");
+	printf("▒▓▒ ▒ ░ ▒ ░░▒░▒░░ ▒░ ░░ ▒░▓  ░░ ▒░▓  ░\n");
+	printf("\t░  ░      ░ ▒ ░░ ░░   ░ ▒░ ▒ ░░ ");
+	printf("░▒  ░ ░ ▒ ░▒░ ░ ░ ░  ░░ ░ ▒  ░░ ░ ▒  ░\n");
+	printf("\t░      ░    ▒ ░   ░   ░ ░  ▒ ░░ ");
+	printf(" ░  ░   ░  ░░ ░   ░     ░ ░     ░ ░   \n");
+	printf("\t       ░    ░           ░  ░    ");
+	printf("    ░   ░  ░  ░   ░  ░    ░  ░    ░  ░\n");
+	printf("%s\n", RESET);
     while (1)
     {
         t_node *test = NULL;
@@ -33,34 +53,6 @@ int main(int ac, char **av, char **envp)
             if(test)
                 pipe_hundel(test,envp);
         } 
-
-        // t_node *test_test = test;
-        // while (test_test)
-        // {
-        //     t_redi *lol = test_test->file;
-        //     i = 0;
-        //     while (test_test->cmd[i])
-        //     {
-        //         printf("cmd[ %s ]   ", test_test->cmd[i]);
-        //         i++;
-        //     }
-        //     printf("\n");
-        //     while (lol)
-        //     {
-        //         printf("file_num[ %s ] --> ", lol->file_num);
-        //         if (lol->type == 0)
-        //             printf("type_file [ FILE_IN ]");
-        //         else if (lol->type == 1)
-        //             printf("type_file [ FILE_OUT ]");
-        //         else if (lol->type == 2)
-        //             printf("type_file [ FILE_APPEND ]");
-        //         else
-        //             printf("type_file [ FILE_HEREDOC ]");
-        //         printf(" --> place [ %d ]\n", lol->p);
-        //         lol = lol->next;
-        //     }
-        //     printf("-------------------------------------------\n");
-        //     test_test = test_test->next;
-        }
+    }
     clear_history();
 }
