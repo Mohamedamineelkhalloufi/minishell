@@ -5,6 +5,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdio.h>
+#include <string.h>
 #include <fcntl.h>
 #include "libft/libft.h"
 #include <time.h>
@@ -28,6 +29,17 @@ typedef struct s_redi
     struct s_redi *next;
 }t_redi;
 
+typedef struct s_unset
+{
+    char *key;
+}t_unset;
+
+typedef struct s_exit
+{
+    int status;
+    int pid;
+}t_exit;
+
 typedef struct s_export
 {
     int flag; // if flag has 1 u mean export hasn't any key-value (empty arg), 0 otherwisse
@@ -39,7 +51,7 @@ typedef struct s_export
 typedef struct s_echo
 {
     int new_line; // we use this in echo if we have echo with the option -n please assign 1 otherwise 0;
-    char *echo_str; 
+    char *echo_str;
     /* please store all of string with echo: 
         example : echo "hello" "world" "amine" "dash"
          struct must be like :
@@ -57,6 +69,8 @@ typedef struct s_node
     t_redi *file;// linkedlist of redirctions (< , << , > , >>)
     t_export *info; //if u have export must be add deatils here
     t_echo *echo_info; //if u have echo must be add details here
+    t_unset *unset_info;
+    t_exit *exit_info;
     struct s_node *next;
 }t_node;
 
@@ -89,11 +103,22 @@ char	*resolve_path(char *command, char **envp); //search for internal command (l
 void	pipe_hundel(t_node *cmd,char **envp); // handel one command and multi command like (ls -l) and (ls -l | grep "a" | wc -l) by using fork, pipe and ..etc!
 void	ft_redirect(t_redi *redir); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
 int		get_num_commands(t_node *cmd); // count of nodes cause any node has one commnde
-char *get_env_value(const char *key, char **envp);
+char    *get_env_value(const char *key, char **envp);
+void    ft_sort(t_node *cmd);
 
 /*--------------------------------------------_builtins_--------------------------------------*/
 
-int	ft_cd(t_node *cmd,char **envp);
+int ft_cd(t_node *cmd);
 int	ft_echo(t_node *cmd);
-
+int ft_env(t_node *cmd);
+int ft_exit(t_node *cmd);
+int ft_export(t_node *cmd);
+int ft_pwd(char **envp);
+int ft_unset(t_node *cmd);
+//helper :
+int	is_builtin(t_node *cmd);
+int exec_builtins(t_node *cmd);
+char	**ft_split_a(char const *s, char const *delimiter);
+void free_split(char **split);
+int init_export_info(t_node *cmd);
 #endif

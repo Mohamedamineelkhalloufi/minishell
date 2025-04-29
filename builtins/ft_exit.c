@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/20 17:25:49 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/27 17:52:28 by mohben-t         ###   ########.fr       */
+/*   Created: 2025/04/23 16:52:26 by mohben-t          #+#    #+#             */
+/*   Updated: 2025/04/25 16:40:15 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_echo(t_node *cmd)
+int ft_exit(t_node *cmd)
 {
-    int i;
-
-    i = 0;
-    if (!(echo_has_new_line(cmd)))
-        return (0);
-    join_args(cmd);
-    if (cmd->echo_info->new_line == 1) // we have option , must be display string without "\n"
-        ft_putstr(cmd->echo_info->echo_str);
+    if (cmd->exit_info->pid == 0)
+        exit(cmd->exit_info->status);
     else
-        ft_putstr_n(cmd->echo_info->echo_str); //display with "\n"
+    {
+        /*
+            * free_all_of_things split ...!
+            * close all files
+        */
+       exit(cmd->exit_info->status);
+    }
     return (0);
 }
+

@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:29:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/21 19:07:35 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/04/29 14:43:24 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,23 @@ int ft_export(t_node *cmd)
     char *tmp1;
     char *tmp2;
 
+    if (init_export_info(cmd) == -1)
+        return (-1);
+    if (valide_key(cmd) == -1)
+        return (-1);
     envp_len = get_len_env(cmd->my_envp);
     old_value = get_env_value(cmd->info->key, cmd->my_envp);
     if (cmd->info->flag == 1)
-        return(func_print(cmd->my_envp),0);
+        return(ft_sort(&cmd),func_print(cmd->my_envp),0);
     i = get_key(cmd->info->key,cmd->my_envp);
     if (i > -1)
     {
-        tmp1 = ft_strjoin(old_value,cmd->info->value);
+        if (cmd->info->append == 1)
+            tmp1 = ft_strjoin(old_value, cmd->info->value);
+        else
+            tmp1 = ft_strdup(cmd->info->value);
         tmp2 = ft_strjoin(cmd->info->key, tmp1);
+
         free(cmd->my_envp[i]);
         cmd->my_envp[i] = tmp2;
     }
@@ -65,6 +73,7 @@ int ft_export(t_node *cmd)
     {
         tmp1 = ft_strjoin(cmd->info->key, cmd->info->value);
         cmd->my_envp[envp_len] = tmp1;
+        cmd->my_envp[envp_len + 1] = NULL;
     }
     return (free(tmp1), free(tmp2), 0);
 }

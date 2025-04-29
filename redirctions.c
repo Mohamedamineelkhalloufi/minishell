@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
- //--> int out int in
+
 static int ft_output(t_redi *redier)
 {
     int fd = open(redier->file_num, O_CREAT | O_WRONLY | O_TRUNC,0644);

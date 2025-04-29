@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/21 17:43:38 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:23:47 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,20 @@ void pipe_hundel(t_node *cmd,char **envp)
         {
             if (cmd->file)
                 ft_redirect(cmd->file);
-            char *full_path = resolve_path(cmd->cmd[0], envp);
-            if (!full_path)
-                error_exit("Command not found");
-            execve(full_path, cmd->cmd, envp);
-            error_exit("execve failed");
+			if (is_builtin(cmd) != -1)
+		   		exec_builtins(cmd);
+			else
+			{
+				
+            	char *full_path = resolve_path(cmd->cmd[0], cmd->my_envp);
+            	if (!full_path)
+				{
+            	    printf("minishell: %s: Command not found\n",cmd->cmd[0]);
+					exit (-1);
+				}
+            	if (execve(full_path, cmd->cmd, cmd->my_envp) == -1)
+					error_exit("execve error");
+			}
         }
         else if(pid < 0)
             perror("fork failed");
@@ -65,20 +74,29 @@ void pipe_hundel(t_node *cmd,char **envp)
     }
 
 /*----------------------------------  multti_command  ---------------------------------------*/
-    // num_commands += 1;
+
     while (i < num_commands)
     {
         create_pipe(pipefds);
         pid = fork();
         if (pid == 0) {
             setup_child_process(cmd,prev_pipe, pipefds, i, num_commands);
-            char *full_path = resolve_path(cmd->cmd[0],envp);
-            if (!full_path)
-                error_exit("Command not found");
-            execve(full_path, cmd->cmd, envp);
-            error_exit("execve failed");
+		   if (is_builtin(cmd) != -1)
+		   		exec_builtins(cmd);
+		   else
+		   {
+            	char *full_path = resolve_path(cmd->cmd[0],cmd->my_envp);
+            	if (!full_path)
+				{
+            	    printf("minishell: %s: Command not found\n",cmd->cmd[0]);
+					exit (-1);
+				}
+            	if (execve(full_path, cmd->cmd, cmd->my_envp) == -1)
+					error_exit("execve error");
+		   }
         }
-        else {
+        else
+        {
             close(pipefds[1]);
             if (prev_pipe)
                 close(prev_pipe);
