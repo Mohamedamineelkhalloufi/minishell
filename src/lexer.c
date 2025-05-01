@@ -70,11 +70,9 @@ int check_redirections(char **p_line)
     return (1);
 }
 
-int len_forma(char *line)
+int len_forma(char *line, int i, int l)
 {
     char q;
-    int i = 0;
-    int l = 0;
 
     while (line[i])
     {
@@ -105,10 +103,9 @@ char *fix_line(char *line)
     int i = 0;
     int l = 0;
 
-    new_line = malloc(len_forma(line) * sizeof(char));
+    new_line = malloc(len_forma(line, 0, 0) * sizeof(char));
     if (!new_line)
         return NULL;
-
     while (line[i])
     {
         if (line[i] == '\'' || line[i] == '\"')

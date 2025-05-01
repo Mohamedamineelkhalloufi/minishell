@@ -20,7 +20,6 @@ typedef struct s_redi
 {
     char *file_num;
     t_file_type type;
-    int p;
     struct s_redi *next;
 }t_redi;
 
@@ -41,15 +40,22 @@ int if_check_pipe(char *line, int i, char q);
 /*--------------------------------------------   lexer   ----------------------------------------*/
 
 int lexer(t_node **test, char *s_line ,char **p_line);
-int len_forma(char *line);
+int len_forma(char *line, int i, int l);
 char *fix_line(char *line);
 int check_redirections(char **p_line);
 int num_cmd(char **p_line);
 
-/*--------------------------------------------   lexer   ----------------------------------------*/
+/*--------------------------------------------   parser   ----------------------------------------*/
 
-t_redi *creat_file(t_redi *head, char *file_num, char *check, int p);
+t_redi *creat_file(t_redi *head, char *file_num, char *check);
 t_node *init_node(int num_cmd);
 t_node *creat_node(t_node *head, char **cmd, int num_cmd);
+
+/*--------------------------------------------   expand   ----------------------------------------*/
+
+char *find_end(char *start);
+char *expand_val(char *s);
+char *expand_line(char *line, int dquote , char *plus);
+char *qoute_remov(char *line);
 
 #endif

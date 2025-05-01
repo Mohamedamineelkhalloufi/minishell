@@ -14,7 +14,6 @@ t_node *init_node(int num_cmd)
     new_node->next = NULL;
     return (new_node);
 }
-
 t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 {
 	t_node	*new_node;
@@ -33,11 +32,11 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	{
 		if (ft_strchr("<>", cmd[i][0]) && cmd[i + 1])
 		{
-			new_node->file = creat_file(new_node->file, cmd[i + 1], cmd[i], i );
+			new_node->file = creat_file(new_node->file, qoute_remov(cmd[i + 1]), cmd[i]);
 			i += 2;
 		}
 		else
-			new_node->cmd[l++] = cmd[i++];
+			new_node->cmd[l++] = qoute_remov(cmd[i++]);
 	}
 	new_node->cmd[l] = NULL;
 	if (!head)
@@ -49,7 +48,7 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	return (head);
 }
 
-t_redi *creat_file(t_redi *head, char *file_num, char *check, int p)
+t_redi *creat_file(t_redi *head, char *file_num, char *check)
 {
     t_redi *new_redi;
     t_redi *stor_head;
@@ -62,25 +61,21 @@ t_redi *creat_file(t_redi *head, char *file_num, char *check, int p)
     {
         new_redi->file_num = file_num;
         new_redi->type = FILE_OUT;
-        new_redi->p = p;
     }
     if (check_split(check, 0, '\0') == 2)
     {
         new_redi->file_num = file_num;
         new_redi->type = FILE_APPEND;
-        new_redi->p = p;
     }
     if (check_split(check, 0, '\0') == 3)
     {
         new_redi->file_num = file_num;
         new_redi->type = FILE_IN;
-        new_redi->p = p;
     }
     if (check_split(check, 0, '\0') == 4)
     {
         new_redi->file_num = file_num;
         new_redi->type = FILE_HEREDOC;
-        new_redi->p = p;
     }
     new_redi->next = NULL;
     if (!head)
