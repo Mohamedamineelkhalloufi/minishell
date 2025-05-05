@@ -11,28 +11,19 @@
 #include <time.h>
 #include <sys/wait.h>
 # define RESET " \e[00m"
-
-
-typedef enum e_file_type
-{
-    FILE_IN,      // <  = 0
-    FILE_OUT,     // >  = 1
-    FILE_APPEND,  // >> = 2
-    FILE_HEREDOC, // << = 3
-} t_file_type;
+int g_exit_status;
 
 typedef struct s_redi
 {
     char *file_num;
-    t_file_type type;
-    int p;
+    int type;
     struct s_redi *next;
 }t_redi;
 
 typedef struct s_unset
 {
     char *key;
-}t_unset;
+}   t_unset;
 
 typedef struct s_exit
 {
@@ -121,4 +112,6 @@ int exec_builtins(t_node *cmd);
 char	**ft_split_a(char const *s, char const *delimiter);
 void free_split(char **split);
 int init_export_info(t_node *cmd);
+void one_com(t_node *cmd,int num_commands,pid_t pid,int status);
+void multi_com(t_node *cmd,int num_commands,pid_t pid, int prev_pipe,int pipefds,int i);
 #endif

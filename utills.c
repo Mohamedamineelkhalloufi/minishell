@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/29 15:08:36 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/05 09:58:28 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ int exec_builtins(t_node *cmd)
 {
 	int res;
 
-	res = -1;
+	res = 1;
 	if (is_builtin(cmd) == 1)
 	{
 		if (ft_strcmp(cmd->cmd[0], "cd") == 0)

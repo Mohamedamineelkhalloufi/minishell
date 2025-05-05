@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handel_pipe.c                                      :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/04 13:38:05 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/04/29 22:25:30 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,10 @@ static void setup_child_process(t_node *cmd, int prev_pipe, int pipefds[2], int 
     close(pipefds[0]);
     close(pipefds[1]);
 }
-void pipe_hundel(t_node *cmd,char **envp)
-{
-    int pipefds[2];
-    pid_t pid;
-    int num_commands = get_num_commands(cmd);
-    int i = 0;
-    int prev_pipe = 0;
-    int status;
 
-/*----------------------------------  one command  ---------------------------------------*/
-    if (num_commands == 1)
+void one_com(t_node *cmd,int num_commands,pid_t pid,int status)
+{
+	if (num_commands == 1)
     {
         pid = fork();
         if (pid == 0)
@@ -71,17 +64,18 @@ void pipe_hundel(t_node *cmd,char **envp)
         }
         return;
     }
+}
 
-/*----------------------------------  multti_command  ---------------------------------------*/
-
-    while (i < num_commands)
+void multi_com(t_node *cmd,int num_commands,pid_t pid, int prev_pipe,int *pipefds,int i)
+{
+	while (i < num_commands)
     {
         create_pipe(pipefds);
         pid = fork();
         if (pid == 0) {
             setup_child_process(cmd,prev_pipe, pipefds, i, num_commands);
 		   if (is_builtin(cmd) != -1)
-		   		exit_status = exec_builtins(cmd);
+		   		exec_builtins(cmd);
 		   else
 		   {
             	char *full_path = resolve_path(cmd->cmd[0],cmd->my_envp);
@@ -103,9 +97,21 @@ void pipe_hundel(t_node *cmd,char **envp)
         }
         i++;
         cmd = cmd->next;
-    }
+	}
+}
+
+void pipe_hundel(t_node *cmd,char **envp)
+{
+    int pipefds[2];
+    pid_t pid;
+    int num_commands = get_num_commands(cmd);
+    int i = 0;
+    int prev_pipe = 0;
+    int status;
+    
+    one_com(cmd,num_commands,pid,status);
+    multi_com(cmd,num_commands, pid,  prev_pipe, pipefds, i);
     if (prev_pipe)
         close(prev_pipe);
     while (wait(NULL) > 0);
-    exit_status = 0;
 }
