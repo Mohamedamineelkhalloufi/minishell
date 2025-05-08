@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
-#include "libft/libft.h"
 #include <time.h>
 #include <sys/wait.h>
 # define RESET " \e[00m"
@@ -86,6 +85,12 @@ t_redi *creat_file(t_redi *head, char *file_num, char *check, int p);
 t_node *init_node(int num_cmd);
 t_node *creat_node(t_node *head, char **cmd, int num_cmd);
 
+/*--------------------------------------------   expand   ----------------------------------------*/
+
+char *find_end(char *start);
+char *expand_val(char *s);
+char *expand_line(char *line, int dquote , char *plus);
+char *qoute_remov(char *line);
 
 /*--------------------------------------------_exct_ft_--------------------------------------*/
 

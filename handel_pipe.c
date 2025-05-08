@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handel_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/04 13:38:05 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:47:36 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 static void create_pipe(int pipefds[2])
 {
