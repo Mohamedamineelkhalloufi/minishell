@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:46:23 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/04/04 13:53:06 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/09 07:56:00 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <limits.h>
 # include <stdio.h>
 
+void	ft_putstr(char *str);
 int		ft_atoi(const char *str);
+int		ft_strcmp(const char *s1, const char *s2);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_isalnum(int c);

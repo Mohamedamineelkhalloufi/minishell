@@ -52,36 +52,37 @@ int main()
                 }
                 i++;
             }
-            
+            if(test)
+                pipe_hundel(test,test->my_envp);
         } 
 
-        t_node *test_test = test;
-        while (test_test)
-        {
-            t_redi *lol = test_test->file;
-            i = 0;
-            while (test_test->cmd[i])
-            {
-                printf("cmd[ %s ]   ", test_test->cmd[i]);
-                i++;
-            }
-            printf("\n");
-            while (lol)
-            {
-                printf("file_num[ %s ] --> ", lol->file_num);
-                if (lol->type == 0)
-                    printf("type_file [ FILE_IN ]\n");
-                else if (lol->type == 1)
-                    printf("type_file [ FILE_OUT \n]");
-                else if (lol->type == 2)
-                    printf("type_file [ FILE_APPEND ]\n");
-                else
-                    printf("type_file [ FILE_HEREDOC ]\n");
-                lol = lol->next;
-            }
-            printf("-------------------------------------------\n");
-            test_test = test_test->next;
-        }
+    //     t_node *test_test = test;
+    //     while (test_test)
+    //     {
+    //         t_redi *lol = test_test->file;
+    //         i = 0;
+    //         while (test_test->cmd[i])
+    //         {
+    //             printf("cmd[ %s ]   ", test_test->cmd[i]);
+    //             i++;
+    //         }
+    //         printf("\n");
+    //         while (lol)
+    //         {
+    //             printf("file_num[ %s ] --> ", lol->file_num);
+    //             if (lol->type == 0)
+    //                 printf("type_file [ FILE_IN ]\n");
+    //             else if (lol->type == 1)
+    //                 printf("type_file [ FILE_OUT \n]");
+    //             else if (lol->type == 2)
+    //                 printf("type_file [ FILE_APPEND ]\n");
+    //             else
+    //                 printf("type_file [ FILE_HEREDOC ]\n");
+    //             lol = lol->next;
+    //         }
+    //         printf("-------------------------------------------\n");
+    //         test_test = test_test->next;
+    //     }
     }
     clear_history();
 }

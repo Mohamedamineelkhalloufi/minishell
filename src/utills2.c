@@ -6,11 +6,11 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:26:56 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/02 13:50:53 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:20:47 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell/minishell.h"
+#include "../minishell.h"
 
 
 static size_t	ft_countword(char const *s, char const *delimiter)

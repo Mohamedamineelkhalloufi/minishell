@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/21 11:01:47 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/08 15:44:10 by mohben-t         ###   ########.fr       */
+/*   Created: 2025/05/09 07:55:34 by mohben-t          #+#    #+#             */
+/*   Updated: 2025/05/09 07:55:48 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "libft.h"
 
-int ft_pwd(t_node *cmd)
+void	ft_putstr(char *str)
 {
-    char *pwd;
-    (void)cmd;
+    int i;
 
-    pwd = getcwd(NULL,0);
-    if (!pwd)
-            return (perror("getcwd"), -1);
-    ft_putendl_fd(pwd,1);
-    free(pwd);
-    return (0);
+    while(str[i] != '\0')
+    {
+        write(1, &str[i], 1);
+        i++;
+    }
 }

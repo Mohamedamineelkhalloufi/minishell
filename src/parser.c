@@ -60,22 +60,22 @@ t_redi *creat_file(t_redi *head, char *file_num, char *check)
     if (check_split(check, 0, '\0') == 1)
     {
         new_redi->file_num = file_num;
-        new_redi->type = FILE_OUT;
+        new_redi->type = 1;
     }
     if (check_split(check, 0, '\0') == 2)
     {
         new_redi->file_num = file_num;
-        new_redi->type = FILE_APPEND;
+        new_redi->type = 2;
     }
     if (check_split(check, 0, '\0') == 3)
     {
         new_redi->file_num = file_num;
-        new_redi->type = FILE_IN;
+        new_redi->type = 0;
     }
     if (check_split(check, 0, '\0') == 4)
     {
         new_redi->file_num = file_num;
-        new_redi->type = FILE_HEREDOC;
+        new_redi->type = 3;
     }
     new_redi->next = NULL;
     if (!head)

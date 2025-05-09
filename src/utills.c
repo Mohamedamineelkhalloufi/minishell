@@ -6,11 +6,11 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/05 09:58:28 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:43:48 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell/minishell.h"
+#include "../minishell.h"
 
 void envp_dup(t_node *cmd, char **envp)
 {
@@ -26,7 +26,10 @@ void envp_dup(t_node *cmd, char **envp)
 		return;
 	i = 0;
 	while (i < env_len)
-		str_env[i] = ft_strdup(envp[i++]);
+	{
+		str_env[i] = ft_strdup(envp[i]);
+		i++;
+	}
 	str_env[i] = NULL;
 	cmd->my_envp = str_env;
 }
@@ -116,7 +119,7 @@ void ft_sort(t_node *cmd)
 }
 
 
-static int	is_builtin(t_node *cmd)
+int	is_builtin(t_node *cmd)
 {
 	int i = 0;
 	char *cmds[7] = {"cd", "echo", "env", "export", "pwd", "exit", "unset"};

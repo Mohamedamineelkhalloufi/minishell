@@ -6,11 +6,11 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/08 14:47:36 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:33:23 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void create_pipe(int pipefds[2])
 {
@@ -33,6 +33,7 @@ static void setup_child_process(t_node *cmd, int prev_pipe, int pipefds[2], int 
 }
 void pipe_hundel(t_node *cmd,char **envp)
 {
+    (void)envp;
     int pipefds[2];
     pid_t pid;
     int num_commands = get_num_commands(cmd);
@@ -81,7 +82,7 @@ void pipe_hundel(t_node *cmd,char **envp)
         if (pid == 0) {
             setup_child_process(cmd,prev_pipe, pipefds, i, num_commands);
 		   if (is_builtin(cmd) != -1)
-		   		exit_status = exec_builtins(cmd);
+		   		exec_builtins(cmd);
 		   else
 		   {
             	char *full_path = resolve_path(cmd->cmd[0],cmd->my_envp);
@@ -107,5 +108,4 @@ void pipe_hundel(t_node *cmd,char **envp)
     if (prev_pipe)
         close(prev_pipe);
     while (wait(NULL) > 0);
-    exit_status = 0;
 }

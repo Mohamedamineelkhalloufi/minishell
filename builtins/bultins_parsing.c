@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:59:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/29 15:16:04 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:49:02 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,15 @@ int init_export_info(t_node *cmd)
     else
         cmd->info->value = ft_strdup(value_part);
     free_split(split);
+    return (0);
 }
 
 int valide_key(t_node *cmd)
 {
-    int i;
     size_t key_len= ft_strlen(cmd->info->key);
     if(isalpha(cmd->info->key[0]) || cmd->info->key[0] == '_')
     {
-        if (cmd->info->key[key_len - 1] == " ")
+        if (cmd->info->key[key_len - 1] == ' ')
             return (-1);
         return (0);
     }

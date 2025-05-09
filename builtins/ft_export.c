@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:29:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/29 14:43:24 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/09 08:01:50 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int ft_export(t_node *cmd)
 {
     int envp_len;
     char *old_value;
-    char i;
+    int i;
     char *tmp1;
     char *tmp2;
 
@@ -53,10 +53,11 @@ int ft_export(t_node *cmd)
         return (-1);
     if (valide_key(cmd) == -1)
         return (-1);
+    tmp2 = ft_strdup("");
     envp_len = get_len_env(cmd->my_envp);
     old_value = get_env_value(cmd->info->key, cmd->my_envp);
     if (cmd->info->flag == 1)
-        return(ft_sort(&cmd),func_print(cmd->my_envp),0);
+        return(ft_sort(cmd),func_print(cmd->my_envp),0);
     i = get_key(cmd->info->key,cmd->my_envp);
     if (i > -1)
     {
