@@ -24,8 +24,11 @@ char *qoute_remov(char *line)
     return (new_line);
 }
 
-int main()
+int main(int ac,char **av,char **envp)
 {
+
+    (void)ac;
+    (void)av;
     char *line;
     char **s_line = NULL;
     while (1)
@@ -52,8 +55,18 @@ int main()
                 }
                 i++;
             }
-            if(test)
-                pipe_hundel(test,test->my_envp);
+            // if(test)
+            //     pipe_hundel(test,envp);
+            if (test)
+            {
+                t_node *tmp = test;
+                while (tmp)
+                {
+                    envp_dup(tmp, envp);
+                    tmp = tmp->next;
+                }
+                pipe_hundel(test, test->my_envp);
+            }
         } 
 
     //     t_node *test_test = test;

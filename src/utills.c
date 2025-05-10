@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:48 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/10 10:43:12 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void error_exit(const char *msg)
 }
 
 char *resolve_path(char *command, char **envp)
-{
+{ 
 	char	*path_env;
 	char	**paths;
 	char	*full_path;
@@ -129,8 +129,24 @@ int	is_builtin(t_node *cmd)
 			return (1);
 		i++;
 	}
-	return (-1);
+	return (0);
 }
+
+int builtin_requires_parent(t_node *cmd)
+{
+    if (!cmd || !cmd->cmd || !cmd->cmd[0])
+        return 0;
+
+    if (
+        ft_strcmp(cmd->cmd[0], "cd") == 0 ||
+        ft_strcmp(cmd->cmd[0], "export") == 0 ||
+        ft_strcmp(cmd->cmd[0], "unset") == 0 ||
+        ft_strcmp(cmd->cmd[0], "exit") == 0
+    )
+        return (1);
+    return (0);
+}
+
 
 int exec_builtins(t_node *cmd)
 {

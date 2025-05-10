@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 17:25:49 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/09 08:06:28 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/09 12:45:18 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int ft_echo(t_node *cmd)
         ft_putstr(cmd->echo_info->echo_str);
     else
         ft_putendl_fd(cmd->echo_info->echo_str,1); //display with "\n"
+    printf("valid!!\n");
     return (0);
 }

@@ -57,6 +57,7 @@ typedef struct s_node
 {
     char **cmd;//arry of string has command and options like : {"ls", "-l", "-a"}
     char **my_envp;//copie of orginal envp
+    int builtin_requires_parent;
     t_redi *file;// linkedlist of redirctions (< , << , > , >>)
     t_export *info; //if u have export must be add deatils here
     t_echo *echo_info; //if u have echo must be add details here
@@ -122,5 +123,7 @@ int echo_has_new_line(t_node *cmd);
 void join_args(t_node *cmd);
 int valide_key(t_node *cmd);
 int init_export_info(t_node *cmd);
+int builtin_requires_parent(t_node *cmd);
+void envp_dup(t_node *cmd, char **envp);
 
 #endif
