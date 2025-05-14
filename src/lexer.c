@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int lexer(t_node **test, char *s_line ,char **p_line)
+int lexer(t_node **all_cmd, char *s_line ,char **p_line)
 {
     int cmd_num;
 
@@ -8,13 +8,13 @@ int lexer(t_node **test, char *s_line ,char **p_line)
     p_line = ft_split(fix_line(s_line), ' ');
     if (check_redirections(p_line) == 0)
     {
-        printf(" Dash@Ameed: syntax error near unexpected\n");
+        ft_putendl_fd(" Dash@Ameed: syntax error near unexpected", 2);
         return (0);
     }
     else
     {
         cmd_num = num_cmd(p_line);
-        *test = creat_node(*test, p_line, cmd_num);
+        *all_cmd = creat_node(*all_cmd, p_line, cmd_num);
     }
     return (1);
 }
@@ -98,7 +98,7 @@ int len_forma(char *line, int i, int l)
 
 char *fix_line(char *line)
 {
-    char *new_line = NULL;
+    char *new_line;
     char q;
     int i = 0;
     int l = 0;

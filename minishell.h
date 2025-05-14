@@ -92,7 +92,7 @@ t_node *creat_node(t_node *head, char **cmd, int num_cmd);
 char *find_end(char *start);
 char *expand_val(char *s);
 char *expand_line(char *line, int dquote , char *plus);
-char *qoute_remov(char *line);
+char *qoute_remov(char *line, char q, int i, int l);
 
 /*--------------------------------------------_exct_ft_--------------------------------------*/
 
@@ -125,5 +125,6 @@ int valide_key(t_node *cmd);
 int init_export_info(t_node *cmd);
 int builtin_requires_parent(t_node *cmd);
 void envp_dup(t_node *cmd, char **envp);
+void    ft_all(t_node **all_cmd, char *line, char **s_line); //5aliha hna
 
 #endif

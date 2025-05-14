@@ -16,7 +16,7 @@ OBJ = $(SRC:.c=.o)
 all:$(NAME)
 
 $(NAME):$(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -lreadline $(LIBFT) -o $(NAME)
 
 $(LIBFT):
 	make -C libft

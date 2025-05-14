@@ -32,11 +32,11 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	{
 		if (ft_strchr("<>", cmd[i][0]) && cmd[i + 1])
 		{
-			new_node->file = creat_file(new_node->file, qoute_remov(cmd[i + 1]), cmd[i]);
+			new_node->file = creat_file(new_node->file, qoute_remov(cmd[i + 1], 0, 0, 0), cmd[i]);
 			i += 2;
 		}
 		else
-			new_node->cmd[l++] = qoute_remov(cmd[i++]);
+			new_node->cmd[l++] = qoute_remov(cmd[i++], 0, 0, 0);
 	}
 	new_node->cmd[l] = NULL;
 	if (!head)

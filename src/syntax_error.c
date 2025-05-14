@@ -115,3 +115,25 @@ int if_check_pipe(char *line, int i, char q)
     }  
     return (i);  
 }
+
+char *qoute_remov(char *line, char q, int i, int l)
+{
+    char *new_line;
+
+    new_line = malloc(sizeof(char) * (ft_strlen(line) + 1));
+    while (line[i])
+    {
+        if (line[i] == '\'' || line[i] == '\"')
+        {
+            q = line[i++];
+            while (line[i] && line[i] != q)
+                new_line[l++] = line[i++];
+            if (line[i])
+                i++;
+        }
+        else
+            new_line[l++] = line[i++];
+    }
+    new_line[l] = '\0';
+    return (new_line);
+}
