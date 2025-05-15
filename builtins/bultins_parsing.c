@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:59:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/08 15:49:02 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:15:12 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,19 @@ void join_args(t_node *cmd)
 /*----------------------_parsing_export_---------------------------------*/
 
 
-int init_export_info(t_node *cmd)
+int init_export_info(t_node *cmd,t_export *info)
 {
     char **split;
     char *key_part;
     char *value_part;
     int key_len;
 
-    cmd->info->flag = 0;
+    info->flag = 0;
     if (cmd->cmd[1] == NULL)
-        cmd->info->flag = 1;
+    {
+        info->flag = 1;
+        return (1);
+    }
     split = ft_split_a(cmd->cmd[1], "=");
     if (!split)
         return (-1);
@@ -81,29 +84,39 @@ int init_export_info(t_node *cmd)
     key_len = ft_strlen(key_part);
     if (key_len > 0 && key_part[key_len - 1] == '+')
     {
-        cmd->info->append = 1;
+        info->append = 1;
         key_part[key_len - 1] = '\0';
     }
     else
-        cmd->info->append = 0;
-    cmd->info->key = ft_strdup(key_part);
+        info->append = 0;
+    info->key = ft_strdup(key_part);
     if (!value_part)
-        cmd->info->value = ft_strdup("");
+        info->value = ft_strdup("");
     else
-        cmd->info->value = ft_strdup(value_part);
+        info->value = ft_strdup(value_part);
+    
+    // printf("%d\n",info->flag);
+    // printf("%d\n",info->append);
+    // printf("%s\n",info->key);
+    // printf("%s\n",info->value);
     free_split(split);
     return (0);
 }
 
-int valide_key(t_node *cmd)
+
+
+int valide_key(t_export *info)
 {
-    size_t key_len= ft_strlen(cmd->info->key);
-    if(isalpha(cmd->info->key[0]) || cmd->info->key[0] == '_')
+    if(!info->key)
+        return (-1);
+    size_t key_len= ft_strlen(info->key);
+    if(isalpha(info->key[0]) || info->key[0] == '_')
     {
-        if (cmd->info->key[key_len - 1] == ' ')
+        if (info->key[key_len - 1] == ' ')
             return (-1);
         return (0);
     }
+    printf("not_valid");
     return (-1);
 }
 

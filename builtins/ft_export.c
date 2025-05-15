@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:29:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/14 17:32:16 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:14:00 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,32 +49,44 @@ int ft_export(t_node *cmd,t_env *env)
     char *tmp1;
     char *tmp2;
 
-    if (init_export_info(cmd) == -1)
+    t_export *info = malloc(sizeof(t_export));
+    if (!info)
         return (-1);
-    if (valide_key(cmd) == -1)
+    (info)->flag = 0;
+    (info)->append = 0;
+    (info)->key = NULL;
+    (info)->value = NULL;
+    if (init_export_info(cmd,info) == -1)
         return (-1);
+    if (!info->key && !cmd->cmd[0] && valide_key(info) == -1 )
+        return (-1);
+    printf("dibug\n");
     tmp2 = ft_strdup("");
     envp_len = get_len_env(env->my_envp);
-    old_value = get_env_value(cmd->info->key, env->my_envp);
-    if (cmd->info->flag == 1)
+    if (info->flag == 1)
         return(ft_sort(env),func_print(env->my_envp),0);
-    i = get_key(cmd->info->key,env->my_envp);
-    if (i > -1)
-    {
-        if (cmd->info->append == 1)
-            tmp1 = ft_strjoin(old_value, cmd->info->value);
-        else
-            tmp1 = ft_strdup(cmd->info->value);
-        tmp2 = ft_strjoin(cmd->info->key, tmp1);
-
-        free(env->my_envp[i]);
-        env->my_envp[i] = tmp2;
-    }
     else
     {
-        tmp1 = ft_strjoin(cmd->info->key, cmd->info->value);
-        env->my_envp[envp_len] = tmp1;
-        env->my_envp[envp_len + 1] = NULL;
+
+        old_value = get_env_value(info->key, env->my_envp);
+        i = get_key(info->key,env->my_envp);
+        if (i > -1)
+        {
+            if (info->append == 1)
+                tmp1 = ft_strjoin(old_value, info->value);
+            else
+                tmp1 = ft_strdup(info->value);
+            tmp2 = ft_strjoin(info->key, tmp1);
+    
+            free(env->my_envp[i]);
+            env->my_envp[i] = tmp2;
+        }
+        else
+        {
+            tmp1 = ft_strjoin(info->key, info->value);
+            env->my_envp[envp_len] = tmp1;
+            env->my_envp[envp_len + 1] = NULL;
+        }
     }
     return (free(tmp1), free(tmp2), 0);
 }

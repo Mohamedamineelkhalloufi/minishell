@@ -37,7 +37,7 @@ typedef struct s_export
     int append; // if a="13" and command is export a+="36" must be add 36 to 13 for get a="1337" 
     char *key;
     char *value;
-}t_export;
+}   t_export;
 
 typedef struct s_echo
 {
@@ -124,11 +124,10 @@ int	is_builtin(t_node *cmd);
 int exec_builtins(t_node *cmd,t_env *env);
 char	**ft_split_a(char const *s, char const *delimiter);
 void free_split(char **split);
-int init_export_info(t_node *cmd);
+int init_export_info(t_node *cmd,t_export *info);
 int echo_has_new_line(t_node *cmd);
 void join_args(t_node *cmd);
-int valide_key(t_node *cmd);
-int init_export_info(t_node *cmd);
+int valide_key(t_export *info);
 int builtin_requires_parent(t_node *cmd);
 void envp_dup(t_env *cmd, char **envp);
 void    ft_all(t_node **all_cmd, char *line, char **s_line); //5aliha hna
