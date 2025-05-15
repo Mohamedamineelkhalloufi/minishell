@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:29:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/09 08:01:50 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:32:16 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void func_print(char **envp)
     while (envp[i])
         printf("%s\n",envp[i++]);
 }
-int ft_export(t_node *cmd)
+int ft_export(t_node *cmd,t_env *env)
 {
     int envp_len;
     char *old_value;
@@ -54,11 +54,11 @@ int ft_export(t_node *cmd)
     if (valide_key(cmd) == -1)
         return (-1);
     tmp2 = ft_strdup("");
-    envp_len = get_len_env(cmd->my_envp);
-    old_value = get_env_value(cmd->info->key, cmd->my_envp);
+    envp_len = get_len_env(env->my_envp);
+    old_value = get_env_value(cmd->info->key, env->my_envp);
     if (cmd->info->flag == 1)
-        return(ft_sort(cmd),func_print(cmd->my_envp),0);
-    i = get_key(cmd->info->key,cmd->my_envp);
+        return(ft_sort(env),func_print(env->my_envp),0);
+    i = get_key(cmd->info->key,env->my_envp);
     if (i > -1)
     {
         if (cmd->info->append == 1)
@@ -67,14 +67,14 @@ int ft_export(t_node *cmd)
             tmp1 = ft_strdup(cmd->info->value);
         tmp2 = ft_strjoin(cmd->info->key, tmp1);
 
-        free(cmd->my_envp[i]);
-        cmd->my_envp[i] = tmp2;
+        free(env->my_envp[i]);
+        env->my_envp[i] = tmp2;
     }
     else
     {
         tmp1 = ft_strjoin(cmd->info->key, cmd->info->value);
-        cmd->my_envp[envp_len] = tmp1;
-        cmd->my_envp[envp_len + 1] = NULL;
+        env->my_envp[envp_len] = tmp1;
+        env->my_envp[envp_len + 1] = NULL;
     }
     return (free(tmp1), free(tmp2), 0);
 }

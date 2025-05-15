@@ -29,19 +29,25 @@ int main(int ac,char **av,char **envp)
 
     (void)ac;
     (void)av;
-    (void)envp;
     char *line;
 
     while (1)
     {
-        t_node *all_cmd = NULL;
+        t_node *head = NULL;
+        // head->echo_info = malloc(sizeof(head->echo_info));
+        t_env *env = malloc(sizeof(t_env));
+        if (!env)
+        return 1;
         line = readline("\033[32m Dash@Ameed$ \033[0m");
         if (!line)
             return 0;
         add_history(line);
-        ft_all(&all_cmd ,line ,NULL);
-        if(all_cmd)
-            pipe_hundel(all_cmd,envp);
+        ft_all(&head ,line ,NULL);
+        if(head)
+        {
+            envp_dup(env,envp);
+            pipe_hundel(head,env);
+        }
         // if (test)
         // {
             //     t_node *tmp = test;
@@ -53,7 +59,7 @@ int main(int ac,char **av,char **envp)
                 //     pipe_hundel(test, test->my_envp);
                 // }
                 
-        // t_node *test_test = all_cmd;
+        // t_node *test_test = head;
         // while (test_test)
         // {
         //     t_redi *lol = test_test->file;

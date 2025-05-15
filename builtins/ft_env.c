@@ -6,13 +6,13 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 19:21:48 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/29 15:02:24 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:24:12 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_env(t_node *cmd)
+int ft_env(t_env *cmd)
 {
     int i;
 

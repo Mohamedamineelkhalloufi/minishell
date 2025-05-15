@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 18:56:21 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/04/22 19:09:37 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:27:12 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ static int get_key(const char *key, char **envp)
 	return (-1);
 }
 
-int ft_unset(t_node *cmd)
+int ft_unset(t_node *cmd,t_env *env)
 {
     int i;
 
-    i = get_key(cmd->unset_info->key,cmd->my_envp);
+    i = get_key(cmd->unset_info->key,env->my_envp);
     if (i == -1)
         return (-1);
-    free(cmd->my_envp[i]);
-    while (cmd->my_envp[i + 1])
+    free(env->my_envp[i]);
+    while (env->my_envp[i + 1])
     {
-        cmd->my_envp[i] = cmd->my_envp[i + 1];
+        env->my_envp[i] = env->my_envp[i + 1];
         i++;
     }
-    cmd->my_envp[i] = NULL;
+    env->my_envp[i] = NULL;
     return(0);
 }

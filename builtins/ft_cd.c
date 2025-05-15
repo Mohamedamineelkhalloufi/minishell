@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:35:34 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/09 08:06:10 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:08:52 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int get_first_index_of_value(const char *key, char **envp)
 	return (-1);
 }
 
-int ft_cd(t_node *cmd)
+int ft_cd(t_node *cmd,t_env *env)
 {
     char *oldpwd;
     char *pwd;
@@ -36,14 +36,14 @@ int ft_cd(t_node *cmd)
 
     if (!cmd->cmd[1]) // No argument: go to $HOME
     {
-        int home_index = get_first_index_of_value("HOME", cmd->my_envp);
+        int home_index = get_first_index_of_value("HOME", env->my_envp);
         if (home_index == -1)
         {
             printf("cd: HOME not set\n");
             //g_exit_status = 1;
             return (-1);
         }
-        target_dir = ft_strdup(cmd->my_envp[home_index] + 5); // Skip "HOME="
+        target_dir = ft_strdup(env->my_envp[home_index] + 5); // Skip "HOME="
     }
     else
     {
@@ -71,20 +71,20 @@ int ft_cd(t_node *cmd)
             return (-1);
         }
 
-        i = get_first_index_of_value("OLDPWD", cmd->my_envp);
+        i = get_first_index_of_value("OLDPWD", env->my_envp);
         if (i != -1)
         {
             tmp = ft_strjoin("OLDPWD=", oldpwd);
-            free(cmd->my_envp[i]);
-            cmd->my_envp[i] = tmp;
+            free(env->my_envp[i]);
+            env->my_envp[i] = tmp;
         }
 
-        i = get_first_index_of_value("PWD", cmd->my_envp);
+        i = get_first_index_of_value("PWD", env->my_envp);
         if (i != -1)
         {
             tmp = ft_strjoin("PWD=", pwd);
-            free(cmd->my_envp[i]);
-            cmd->my_envp[i] = tmp;
+            free(env->my_envp[i]);
+            env->my_envp[i] = tmp;
         }
 
         free(oldpwd);
@@ -101,5 +101,6 @@ int ft_cd(t_node *cmd)
     }
 
     free(target_dir);
+    printf("v\n");
     return (0);
 }

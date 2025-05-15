@@ -53,10 +53,16 @@ typedef struct s_echo
     */
 }t_echo;
 
+typedef struct s_env
+{
+    char **my_envp;
+}   t_env;
+
+
 typedef struct s_node
 {
     char **cmd;//arry of string has command and options like : {"ls", "-l", "-a"}
-    char **my_envp;//copie of orginal envp
+    // char **my_envp;//copie of orginal envp
     int builtin_requires_parent;
     t_redi *file;// linkedlist of redirctions (< , << , > , >>)
     t_export *info; //if u have export must be add deatils here
@@ -98,24 +104,24 @@ char *qoute_remov(char *line, char q, int i, int l);
 
 void	error_exit(const char *msg); // display error msg asd exit
 char	*resolve_path(char *command, char **envp); //search for internal command (ls, cat, etc..)in envp(PATH) 
-void	pipe_hundel(t_node *cmd,char **envp); // handel one command and multi command like (ls -l) and (ls -l | grep "a" | wc -l) by using fork, pipe and ..etc!
-void	ft_redirect(t_redi *redir); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
+void pipe_hundel(t_node *cmd,t_env *env); // handel one command and multi command like (ls -l) and (ls -l | grep "a" | wc -l) by using fork, pipe and ..etc!
+int	ft_redirect(t_redi *redir); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
 int		get_num_commands(t_node *cmd); // count of nodes cause any node has one commnde
 char    *get_env_value(const char *key, char **envp);
-void    ft_sort(t_node *cmd);
+void    ft_sort(t_env *cmd);
 
 /*--------------------------------------------_builtins_--------------------------------------*/
 
-int ft_cd(t_node *cmd);
+int ft_cd(t_node *cmd,t_env *env);
 int	ft_echo(t_node *cmd);
-int ft_env(t_node *cmd);
+int ft_env(t_env *cmd);
 int ft_exit(t_node *cmd);
-int ft_export(t_node *cmd);
+int ft_export(t_node *cmd,t_env *env);
 int ft_pwd(t_node *cmd);
-int ft_unset(t_node *cmd);
+int ft_unset(t_node *cmd,t_env *env);
 //helper :
 int	is_builtin(t_node *cmd);
-int exec_builtins(t_node *cmd);
+int exec_builtins(t_node *cmd,t_env *env);
 char	**ft_split_a(char const *s, char const *delimiter);
 void free_split(char **split);
 int init_export_info(t_node *cmd);
@@ -124,7 +130,7 @@ void join_args(t_node *cmd);
 int valide_key(t_node *cmd);
 int init_export_info(t_node *cmd);
 int builtin_requires_parent(t_node *cmd);
-void envp_dup(t_node *cmd, char **envp);
+void envp_dup(t_env *cmd, char **envp);
 void    ft_all(t_node **all_cmd, char *line, char **s_line); //5aliha hna
 
 #endif

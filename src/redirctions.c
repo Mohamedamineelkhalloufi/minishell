@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:30 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/08 15:20:31 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:05:30 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,22 @@ int ft_heredoc(t_redi *redier)
     return 0;
 }
 
-void ft_redirect(t_redi *redir)
+int ft_redirect(t_redi *redir)
 {
+    int res;
+
+    res = -1;
     while (redir)
     {
         if (redir->type == 1)
-            ft_output(redir);
+            res = ft_output(redir);
         else if (redir->type == 0)
-            ft_input(redir);
+            res = ft_input(redir);
         else if (redir->type == 2)
-            ft_append(redir);
+            res = ft_append(redir);
         else if (redir->type == 3)
-            ft_heredoc(redir);
+            res = ft_heredoc(redir);
         redir = redir->next;
     }
+    return (res);
 }
