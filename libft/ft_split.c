@@ -6,32 +6,17 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 21:30:33 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/04/30 14:41:05 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:51:32 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	is_quote(char c)
-{
-	return (c == '\'' || c == '\"');
-}
-
-static int	skip_quote(const char *s, int i)
-{
-	char	quote = s[i++];
-
-	while (s[i] && s[i] != quote)
-		i++;
-	if (s[i] == quote)
-		i++;
-	return (i);
-}
-
 static int	get_word_len(const char *s, char sep)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	while (s[i] && s[i] != sep)
 	{
 		if (is_quote(s[i]))
@@ -44,15 +29,17 @@ static int	get_word_len(const char *s, char sep)
 
 static int	count_words(const char *s, char sep)
 {
-	int	i = 0;
-	int	count = 0;
+	int	i;
+	int	count;
 
+	i = 0;
+	count = 0;
 	while (s[i])
 	{
 		while (s[i] == sep)
 			i++;
 		if (!s[i])
-			break;
+			break ;
 		count++;
 		i += get_word_len(&s[i], sep);
 	}
@@ -61,11 +48,13 @@ static int	count_words(const char *s, char sep)
 
 static char	*copy_word(const char *s, int len)
 {
-	char	*word = (char *)malloc(len + 1);
-	int		i = 0;
-	int		j = 0;
+	char	*word;
 	char	quote;
 
+	int (i), (j);
+	word = (char *)malloc(len + 1);
+	i = 0;
+	j = 0;
 	if (!word)
 		return (NULL);
 	while (i < len)
@@ -97,10 +86,10 @@ static void	*free_all(char **arr, int count)
 char	**ft_split(const char *s, char sep)
 {
 	char	**res;
-	int		i = 0;
-	int		j = 0;
-	int		len;
 
+	int (i), (j), (len);
+	i = 0;
+	j = 0;
 	if (!s)
 		return (NULL);
 	res = malloc(sizeof(char *) * (count_words(s, sep) + 1));
@@ -111,7 +100,7 @@ char	**ft_split(const char *s, char sep)
 		while (s[i] == sep)
 			i++;
 		if (!s[i])
-			break;
+			break ;
 		len = get_word_len(&s[i], sep);
 		res[j] = copy_word(&s[i], len);
 		if (!res[j])

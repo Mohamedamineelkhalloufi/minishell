@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utills2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:26:56 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/08 15:20:47 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:25:16 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ char	**ft_split_a(char const *s, char const *delimiter)
 }
 void free_split(char **split)
 {
-    int i = 0;
-    while (split[i])
-        free(split[i++]);
-    free(split);
+	int	i;
+
+	i = 0;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+	split = NULL;
 }

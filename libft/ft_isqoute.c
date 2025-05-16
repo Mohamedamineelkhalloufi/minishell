@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_isqoute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 07:55:34 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/16 17:53:41 by mohel-kh         ###   ########.fr       */
+/*   Created: 2025/05/16 17:50:42 by mohel-kh          #+#    #+#             */
+/*   Updated: 2025/05/16 17:54:58 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr(char *str)
+int	is_quote(char c)
 {
-	int	i;
+	return (c == '\'' || c == '\"');
+}
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		write(1, &str[i], 1);
+int	skip_quote(const char *s, int i)
+{
+	char	quote;
+
+	quote = s[i++];
+	while (s[i] && s[i] != quote)
 		i++;
-	}
+	if (s[i] == quote)
+		i++;
+	return (i);
 }

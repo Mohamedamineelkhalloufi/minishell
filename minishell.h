@@ -86,14 +86,19 @@ int len_forma(char *line, int i, int l);
 char *fix_line(char *line);
 int check_redirections(char **p_line);
 int num_cmd(char **p_line);
+int  handle_quotes(char *line, char *new_line, int *i, int *l);
+int  handle_redirects(char *line, char *new_line, int *i, int *l);
 
-/*--------------------------------------------_lexer_----------------------------------------*/
+/*--------------------------------------------_parser_----------------------------------------*/
 
 t_redi *creat_file(t_redi *head, char *file_num, char *check);
 t_node *init_node(int num_cmd);
 t_node *creat_node(t_node *head, char **cmd, int num_cmd);
+void	process_cmd(t_node *new_node, char **cmd);
+void set_redi_type(t_redi *new_redi, char *check);
+void add_redi_to_list(t_redi *head, t_redi *new_redi);
 
-/*--------------------------------------------   expand   ----------------------------------------*/
+/*--------------------------------------------_expand_----------------------------------------*/
 
 char *find_end(char *start);
 char *expand_val(char *s);

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:46:23 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/09 07:56:00 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/16 17:54:37 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stddef.h>
 # include <limits.h>
+# include <stddef.h>
 # include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 void	ft_putstr(char *str);
 int		ft_atoi(const char *str);
@@ -28,11 +28,13 @@ int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
+int		is_quote(char c);
+int		skip_quote(const char *s, int i);
 int		ft_isprint(int c);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
-void	*ft_memcpy( void *dst, const void *src, size_t n);
-void	*ft_memmove( void *dst, const void *src, size_t len );
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	*ft_memmove(void *dst, const void *src, size_t len);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
@@ -54,5 +56,5 @@ int		ft_toupper(int c);
 char	**ft_split(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 #endif

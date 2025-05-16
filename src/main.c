@@ -1,34 +1,23 @@
-#include "../minishell.h"
-void    ft_all(t_node **all_cmd, char *line, char **s_line)
-{
-    char *plus;
-    int i;
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 17:39:07 by mohel-kh          #+#    #+#             */
+/*   Updated: 2025/05/16 17:39:09 by mohel-kh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-    plus = NULL;
-    i = 0;
-    if (d_quote(line, 0, 0, 0) == 0 || !check_pipe(line))
-        ft_putendl_fd(" Dash@Ameed: syntax error near unexpected", 2);
-    else
-    {
-        plus = expand_line(line, 0, ft_strdup(""));
-        s_line = ft_split(plus, '|');
-        while (s_line[i])
-        {
-            if (!lexer(all_cmd, s_line[i], NULL))
-            {
-                free(all_cmd);
-                all_cmd = NULL;
-                break;
-            }
-            i++;
-        }
-    }
-}
+#include "../minishell.h"
+
 int main(int ac,char **av,char **envp)
 {
 
     (void)ac;
     (void)av;
+    // (void)envp;
     char *line;
 
     while (1)
@@ -38,7 +27,7 @@ int main(int ac,char **av,char **envp)
         t_env *env = malloc(sizeof(t_env));
         if (!env)
         return 1;
-        line = readline("\033[32m Dash@Ameed$ \033[0m");
+        line = readline("\033[32mDash@Ameed$ \033[0m");
         if (!line)
             return 0;
         add_history(line);

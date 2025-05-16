@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:35:34 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/14 18:08:52 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:25:58 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,5 @@ int ft_cd(t_node *cmd,t_env *env)
     }
 
     free(target_dir);
-    printf("v\n");
     return (0);
 }
