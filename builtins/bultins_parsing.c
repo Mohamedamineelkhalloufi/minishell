@@ -6,22 +6,17 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:59:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/15 18:15:12 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/19 17:59:23 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*----------------------_parsing_echo_---------------------------------*/
-int echo_has_new_line(t_node *cmd)
+void echo_has_new_line(t_node *cmd)
 {
     int j;
-
     cmd->echo_info->new_line = 0;
-    if (!cmd->cmd[1])
-        return (0);
-
-    if (cmd->cmd[1][0] == '-' && cmd->cmd[1][1] == 'n')
+    if (cmd->cmd[1] && cmd->cmd[1][0] == '-' && cmd->cmd[1][1] == 'n')
     {
         j = 2;
         while (cmd->cmd[1][j] == 'n')
@@ -29,7 +24,6 @@ int echo_has_new_line(t_node *cmd)
         if (cmd->cmd[1][j] == '\0')
             cmd->echo_info->new_line = 1;
     }
-    return (0);
 }
 
 void join_args(t_node *cmd)
@@ -58,9 +52,6 @@ void join_args(t_node *cmd)
     cmd->echo_info->echo_str = str;
 }
 
-/*----------------------_parsing_export_---------------------------------*/
-
-
 int init_export_info(t_node *cmd,t_export *info)
 {
     char **split;
@@ -70,10 +61,7 @@ int init_export_info(t_node *cmd,t_export *info)
 
     info->flag = 0;
     if (cmd->cmd[1] == NULL)
-    {
-        info->flag = 1;
-        return (1);
-    }
+        return (info->flag = 1,1);
     split = ft_split_a(cmd->cmd[1], "=");
     if (!split)
         return (-1);
@@ -94,29 +82,24 @@ int init_export_info(t_node *cmd,t_export *info)
         info->value = ft_strdup("");
     else
         info->value = ft_strdup(value_part);
-    
-    // printf("%d\n",info->flag);
-    // printf("%d\n",info->append);
-    // printf("%s\n",info->key);
-    // printf("%s\n",info->value);
     free_split(split);
     return (0);
 }
 
-
-
 int valide_key(t_export *info)
 {
     if(!info->key)
-        return (-1);
+        return (0);
     size_t key_len= ft_strlen(info->key);
     if(isalpha(info->key[0]) || info->key[0] == '_')
     {
         if (info->key[key_len - 1] == ' ')
+        {
+            dprintf(2,"not a valid identifier\n");
             return (-1);
+        }
         return (0);
     }
-    printf("not_valid");
+    dprintf(2,"not a valid identifier\n");
     return (-1);
 }
-

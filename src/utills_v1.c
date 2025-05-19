@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utills.c                                           :+:      :+:    :+:   */
+/*   utills_v1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/16 14:15:09 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:44:34 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void envp_dup(t_env *cmd, char **envp)
 	env_len = 0;
 	while (envp[env_len])
 		env_len++;
-	str_env = (char **)malloc((env_len  * sizeof(char *)) + 1);
+	str_env = (char **)malloc((env_len + 1) * sizeof(char *));
 	if (!str_env)
 		return;
 	i = 0;
@@ -32,8 +32,28 @@ void envp_dup(t_env *cmd, char **envp)
 	}
 	str_env[i] = NULL;
 	cmd->my_envp = str_env;
+	cmd->env_len = env_len;
 	// free(str_env);
 }
+
+char **realloc_env(char **old_env, int old_size, int new_size)
+{
+	char **new_env = malloc((new_size + 1) * sizeof(char *));
+	int i = 0;
+
+	if (!new_env)
+		return NULL;
+	while (i < old_size)
+	{
+		new_env[i] = ft_strdup(old_env[i]);
+		free(old_env[i]);
+		i++;
+	}
+	new_env[i] = NULL;
+	free(old_env);
+	return (new_env);
+}
+
 
 char *get_env_value(const char *key, char **envp)
 {
@@ -168,16 +188,13 @@ int exec_builtins(t_node *cmd,t_env *env)
 		if (ft_strcmp(cmd->cmd[0], "cd") == 0)
 			res = ft_cd(cmd,env);
 		else if (ft_strcmp(cmd->cmd[0], "echo") == 0)
-		{
-			printf("%s\n",cmd->echo_info->echo_str);
 			res = ft_echo(cmd);
-		}
 		else if (ft_strcmp(cmd->cmd[0], "env") == 0)
 			res = ft_env(env);
 		else if (ft_strcmp(cmd->cmd[ 0], "exit") == 0)
 			res = ft_exit(cmd);
 		else if (ft_strcmp(cmd->cmd[0], "export") == 0)
-			res = ft_export(cmd,env);
+			res = ft_export(cmd,&env);
 		else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
 			res = ft_pwd(cmd);
 		else if (ft_strcmp(cmd->cmd[0], "unset") == 0)

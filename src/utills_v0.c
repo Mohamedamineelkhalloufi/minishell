@@ -3,40 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   utills_v0.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:34:52 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/16 18:00:37 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:34:22 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_all(t_node **all_cmd, char *line, char **s_line)
+void    ft_all(t_node **all_cmd, char *line, char **s_line,t_env *info)
 {
-	char	*plus;
-	int		i;
+    char *plus;
+    int i;
 
-	plus = NULL;
-	i = 0;
-	if (d_quote(line, 0, 0, 0) == 0 || !check_pipe(line))
-		ft_putendl_fd("Dash@Ameed: syntax error near unexpected", 2);
-	else
-	{
-		plus = expand_line(line, 0, ft_strdup(""));
-		s_line = ft_split(plus, '|');
-		while (s_line[i])
-		{
-			if (!lexer(all_cmd, s_line[i], NULL))
-			{
-				free(all_cmd);
-				all_cmd = NULL;
-				break ;
-			}
-			i++;
-		}
-		free_split(s_line);
-	}
+    plus = NULL;
+    i = 0;
+    if (d_quote(line, 0, 0, 0) == 0 || !check_pipe(line))
+        ft_putendl_fd(" Dash@Ameed: syntax error near unexpected", 2);
+    else
+    {
+        plus = expand_line(line, 0, ft_strdup(""),info);
+        s_line = ft_split(plus, '|');
+        while (s_line[i])
+        {
+            if (!lexer(all_cmd, s_line[i], NULL))
+            {
+                free(all_cmd);
+                all_cmd = NULL;
+                break;
+            }
+            i++;
+        }
+    }
 }
 
 t_node	*init_node(int num_cmd)

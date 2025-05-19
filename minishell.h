@@ -11,7 +11,11 @@
 #include <time.h>
 #include <sys/wait.h>
 # define RESET " \e[00m"
-// int g_exit_status;
+
+#ifndef GLOBALS_H
+#define GLOBALS_H
+extern int	g_es;
+#endif
 
 typedef struct s_redi
 {
@@ -19,11 +23,6 @@ typedef struct s_redi
     int type;
     struct s_redi *next;
 }t_redi;
-
-typedef struct s_unset
-{
-    char *key;
-}   t_unset;
 
 typedef struct s_exit
 {
@@ -56,18 +55,16 @@ typedef struct s_echo
 typedef struct s_env
 {
     char **my_envp;
+    int env_len;
+    struct s_env *next;
 }   t_env;
-
 
 typedef struct s_node
 {
     char **cmd;//arry of string has command and options like : {"ls", "-l", "-a"}
-    // char **my_envp;//copie of orginal envp
-    int builtin_requires_parent;
     t_redi *file;// linkedlist of redirctions (< , << , > , >>)
     t_export *info; //if u have export must be add deatils here
     t_echo *echo_info; //if u have echo must be add details here
-    t_unset *unset_info;
     t_exit *exit_info;
     struct s_node *next;
 }t_node;
@@ -101,16 +98,16 @@ void add_redi_to_list(t_redi *head, t_redi *new_redi);
 /*--------------------------------------------_expand_----------------------------------------*/
 
 char *find_end(char *start);
-char *expand_val(char *s);
-char *expand_line(char *line, int dquote , char *plus);
+char *expand_val(char *s, t_env *info);
+char *expand_line(char *line, int dquote , char *plus,t_env *info);
 char *qoute_remov(char *line, char q, int i, int l);
 
 /*--------------------------------------------_exct_ft_--------------------------------------*/
 
 void	error_exit(const char *msg); // display error msg asd exit
 char	*resolve_path(char *command, char **envp); //search for internal command (ls, cat, etc..)in envp(PATH) 
-void pipe_hundel(t_node *cmd,t_env *env); // handel one command and multi command like (ls -l) and (ls -l | grep "a" | wc -l) by using fork, pipe and ..etc!
-int	ft_redirect(t_redi *redir); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
+void    pipe_hundel(t_node *cmd,t_env *env); // handel one command and multi command like (ls -l) and (ls -l | grep "a" | wc -l) by using fork, pipe and ..etc!
+int	    ft_redirect(t_redi *redir); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
 int		get_num_commands(t_node *cmd); // count of nodes cause any node has one commnde
 char    *get_env_value(const char *key, char **envp);
 void    ft_sort(t_env *cmd);
@@ -121,7 +118,7 @@ int ft_cd(t_node *cmd,t_env *env);
 int	ft_echo(t_node *cmd);
 int ft_env(t_env *cmd);
 int ft_exit(t_node *cmd);
-int ft_export(t_node *cmd,t_env *env);
+int ft_export(t_node *cmd,t_env **env);
 int ft_pwd(t_node *cmd);
 int ft_unset(t_node *cmd,t_env *env);
 //helper :
@@ -130,11 +127,13 @@ int exec_builtins(t_node *cmd,t_env *env);
 char	**ft_split_a(char const *s, char const *delimiter);
 void free_split(char **split);
 int init_export_info(t_node *cmd,t_export *info);
-int echo_has_new_line(t_node *cmd);
+void echo_has_new_line(t_node *cmd);
 void join_args(t_node *cmd);
 int valide_key(t_export *info);
 int builtin_requires_parent(t_node *cmd);
 void envp_dup(t_env *cmd, char **envp);
-void    ft_all(t_node **all_cmd, char *line, char **s_line); //5aliha hna
+char **realloc_env(char **old_env, int old_size, int new_size);
+void func_print(char **envp);
+void    ft_all(t_node **all_cmd, char *line, char **s_line,t_env *info); //5aliha hna
 
 #endif

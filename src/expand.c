@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/16 17:38:47 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:38:34 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char *find_end(char *start)
     return (ft_substr(start + 1, 0, i - 1));
 }
 
-char *expand_val(char *s)
+char *expand_val(char *s,t_env *info)
 {
     char *start;
     char *dollar = NULL;
@@ -47,19 +47,19 @@ char *expand_val(char *s)
         if (!dollar)
         return NULL;
         temp = dollar;
-        dollar = getenv(temp);
+        dollar = get_env_value(temp,info->my_envp);
         free(temp);
         if (dollar)
             return (dollar);
         else if (start[1] && !ft_isalnum(start[1]))
-            return ("$");
+            return (ft_itoa(g_es));
         else
             return ("");
     }
     return NULL;
 }
 
-char *expand_line(char *line, int dquote , char *plus)
+char *expand_line(char *line, int dquote , char *plus,t_env *info)
 {
     while (line && *line)
         {
@@ -91,7 +91,7 @@ char *expand_line(char *line, int dquote , char *plus)
             {
                 line += i;
                 i = 1;
-                char *expanded = expand_val(line);
+                char *expanded = expand_val(line,info);
                 plus = ft_strjoin(plus, expanded);
                 if (line[i] && (line[i] == '?' || ft_isdigit(line[i])))
                     i++;

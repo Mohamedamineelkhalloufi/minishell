@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:29:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/15 18:14:00 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:02:07 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,8 @@ static int get_key(const char *key, char **envp)
 	}
 	return (-1);
 }
-static int get_len_env(char **envp)
-{
-    int		i = 0;
 
-	while (envp[i])
-		i++;
-	return (i);
-}
-static void func_print(char **envp)
+void func_print(char **envp)
 {
     int i;
 
@@ -41,13 +34,13 @@ static void func_print(char **envp)
     while (envp[i])
         printf("%s\n",envp[i++]);
 }
-int ft_export(t_node *cmd,t_env *env)
+int ft_export(t_node *cmd,t_env **env)
 {
-    int envp_len;
     char *old_value;
     int i;
     char *tmp1;
     char *tmp2;
+    char *temp3;
 
     t_export *info = malloc(sizeof(t_export));
     if (!info)
@@ -57,36 +50,40 @@ int ft_export(t_node *cmd,t_env *env)
     (info)->key = NULL;
     (info)->value = NULL;
     if (init_export_info(cmd,info) == -1)
-        return (-1);
-    if (!info->key && !cmd->cmd[0] && valide_key(info) == -1 )
-        return (-1);
-    printf("dibug\n");
+        return (1);
+    if ((!info->key && !cmd->cmd[0]) || (valide_key(info) == -1))
+        return (1);
     tmp2 = ft_strdup("");
-    envp_len = get_len_env(env->my_envp);
     if (info->flag == 1)
-        return(ft_sort(env),func_print(env->my_envp),0);
+        return(ft_sort(*env),func_print((*env)->my_envp),0);
     else
     {
-
-        old_value = get_env_value(info->key, env->my_envp);
-        i = get_key(info->key,env->my_envp);
+        old_value = get_env_value(info->key, (*env)->my_envp);
+        i = get_key(info->key,(*env)->my_envp);
         if (i > -1)
         {
             if (info->append == 1)
                 tmp1 = ft_strjoin(old_value, info->value);
             else
                 tmp1 = ft_strdup(info->value);
-            tmp2 = ft_strjoin(info->key, tmp1);
-    
-            free(env->my_envp[i]);
-            env->my_envp[i] = tmp2;
+            temp3= ft_strjoin(info->key, "=");
+            tmp2 = ft_strjoin(temp3, tmp1);
+            free((*env)->my_envp[i]);
+            (*env)->my_envp[i] = tmp2;
+            free(tmp1), free(temp3);
         }
         else
         {
-            tmp1 = ft_strjoin(info->key, info->value);
-            env->my_envp[envp_len] = tmp1;
-            env->my_envp[envp_len + 1] = NULL;
+            (*env)->my_envp = realloc_env((*env)->my_envp, (*env)->env_len, (*env)->env_len + 1);
+            temp3 = ft_strjoin(info->key, "=");
+            tmp1 = ft_strjoin(temp3, info->value);
+            (*env)->my_envp[(*env)->env_len] = tmp1;
+            (*env)->env_len++;
+            (*env)->my_envp[(*env)->env_len] = NULL;
+            
+            free(temp3);
         }
+        return (0);
     }
-    return (free(tmp1), free(tmp2), 0);
 }
+
