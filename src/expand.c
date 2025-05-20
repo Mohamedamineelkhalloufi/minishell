@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/20 15:42:31 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:47:52 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,7 @@ char	*expand_val(char *s, t_env *info)
 	temp = find_end(start);
 	if (!temp)
 		return (NULL);
-	// dollar = get_env_value(temp, info->my_envp);
-    (void)info;
-	dollar = getenv(temp);
+	dollar = get_env_value(temp, info->my_envp);
 	free(temp);
 	if (dollar)
 		return (dollar);
