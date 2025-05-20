@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:00 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/16 17:42:20 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:21:46 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 		cmd_num = num_cmd(p_line);
 		*all_cmd = creat_node(*all_cmd, p_line, cmd_num);
 	}
-	free_split(p_line);
 	return (1);
 }
 

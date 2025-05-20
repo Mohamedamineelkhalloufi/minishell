@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/19 18:40:49 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:27:43 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	execute_command(t_node *cmd, t_env *env)
 		full_path = resolve_path(cmd->cmd[0], env->my_envp);
 		if (!full_path)
 		{
-			printf("minishell: %s: command not found\n", cmd->cmd[0]);
+			printf("Dash@Ameed: %s: command not found\n", cmd->cmd[0]);
 			exit(127);
 		}
 		execve(full_path, cmd->cmd, env->my_envp);

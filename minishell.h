@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <time.h>
 #include <sys/wait.h>
+#include <signal.h>
 # define RESET " \e[00m"
 
 #ifndef GLOBALS_H
@@ -69,12 +70,14 @@ typedef struct s_node
     struct s_node *next;
 }t_node;
 
+
 /*-----------------------------------------_syntax_erroe_------------------------------------*/
 
 int check_split(char *line, int i, char q);
 int d_quote(char *line, int dquote, int quote, int i);
 int check_pipe(char *line);
 int if_check_pipe(char *line, int i, char q);
+char	*qoute_remov(char *line, char q, int i, int l);
 
 /*--------------------------------------------_lexer_----------------------------------------*/
 
@@ -97,10 +100,12 @@ void add_redi_to_list(t_redi *head, t_redi *new_redi);
 
 /*--------------------------------------------_expand_----------------------------------------*/
 
+char    *expand_line(char *line, int dquote, char *plus, t_env *info);
+int    skip_quotes(char *line, int i, int *dquote);
+int    handle_dollar(char **plus, char *line, t_env *info);
+char	*expand_val(char *s, t_env *info);
 char *find_end(char *start);
-char *expand_val(char *s, t_env *info);
-char *expand_line(char *line, int dquote , char *plus,t_env *info);
-char *qoute_remov(char *line, char q, int i, int l);
+char	*handle_dollar_case(char *start);
 
 /*--------------------------------------------_exct_ft_--------------------------------------*/
 
@@ -135,5 +140,6 @@ void envp_dup(t_env *cmd, char **envp);
 char **realloc_env(char **old_env, int old_size, int new_size);
 void func_print(char **envp);
 void    ft_all(t_node **all_cmd, char *line, char **s_line,t_env *info); //5aliha hna
+void signal_setup();
 
 #endif

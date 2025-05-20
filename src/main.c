@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:07 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/19 18:36:11 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:33:41 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ int main(int ac,char **av,char **envp)
     (void)ac;
     (void)av;
     char *line;
-
+    signal_setup();
     t_env *env = malloc(sizeof(t_env));
     if (!env)
         return 1;
     while (1)
     {
         t_node *head = NULL;
-        line = readline("\033[32m Dash@Ameed$ \033[0m");
+        line = readline("\033[32mDash@Ameed$ \033[0m");
         if (!line)
             return 0;
         add_history(line);
@@ -42,9 +42,9 @@ int main(int ac,char **av,char **envp)
                 env->next->next = NULL;
             }
         }
-        ft_all(&head ,line ,NULL,env);
+        ft_all(&head ,line ,NULL ,env);
         if(head)
-           pipe_hundel(head,env);
+           pipe_hundel(head, env);
         // if (test)
         // {
             //     t_node *tmp = test;

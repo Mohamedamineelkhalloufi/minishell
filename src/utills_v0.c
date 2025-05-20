@@ -3,39 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   utills_v0.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:34:52 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/19 18:34:22 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:35:40 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    ft_all(t_node **all_cmd, char *line, char **s_line,t_env *info)
+void	ft_all(t_node **all_cmd, char *line, char **s_line, t_env *info)
 {
-    char *plus;
-    int i;
+	char	*plus;
+	int		i;
 
-    plus = NULL;
-    i = 0;
-    if (d_quote(line, 0, 0, 0) == 0 || !check_pipe(line))
-        ft_putendl_fd(" Dash@Ameed: syntax error near unexpected", 2);
-    else
-    {
-        plus = expand_line(line, 0, ft_strdup(""),info);
-        s_line = ft_split(plus, '|');
-        while (s_line[i])
-        {
-            if (!lexer(all_cmd, s_line[i], NULL))
-            {
-                free(all_cmd);
-                all_cmd = NULL;
-                break;
-            }
-            i++;
-        }
-    }
+	plus = NULL;
+	i = 0;
+	if (!d_quote(line, 0, 0, 0) || !check_pipe(line))
+	{
+		g_es = 2;
+		ft_putendl_fd("Dash@Ameed: syntax error near unexpected", 2);
+	}
+	else
+	{
+		plus = expand_line(line, 0, ft_strdup(""), info);
+		s_line = ft_split(plus, '|');
+		while (s_line[i])
+		{
+			if (!lexer(all_cmd, s_line[i], NULL))
+			{
+				break ;
+			}
+			i++;
+		}
+	}
 }
 
 t_node	*init_node(int num_cmd)
@@ -73,4 +74,14 @@ int	handle_redirects(char *line, char *new_line, int *i, int *l)
 		new_line[(*l)++] = line[(*i)++];
 	new_line[(*l)++] = ' ';
 	return (1);
+}
+
+char	*handle_dollar_case(char *start)
+{
+	int	i;
+
+	i = 0;
+	while (start[i] && start[i] == '$')
+		i++;
+	return (ft_substr(start, 0, i - 1));
 }
