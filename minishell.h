@@ -21,6 +21,7 @@ extern int	g_es;
 typedef struct s_redi
 {
     char *file_num;
+    char *heredoc_file;
     int type;
     struct s_redi *next;
 }t_redi;
@@ -31,8 +32,16 @@ typedef struct s_exit
     int pid;
 }t_exit;
 
+typedef struct s_garbeg_collecter
+{
+    void *ptr;
+    struct s_garbeg_collecter *next;
+}   t_garbeg_collecter;
+
 typedef struct s_export
 {
+    int i_postion;
+    int fg;
     int flag; // if flag has 1 u mean export hasn't any key-value (empty arg), 0 otherwisse
     int append; // if a="13" and command is export a+="36" must be add 36 to 13 for get a="1337" 
     char *key;
@@ -125,13 +134,14 @@ int ft_env(t_env *cmd);
 int ft_exit(t_node *cmd);
 int ft_export(t_node *cmd,t_env **env);
 int ft_pwd(t_node *cmd);
-int ft_unset(t_node *cmd,t_env *env);
+int ft_unset(t_node *cmd,t_env **env);
 //helper :
 int	is_builtin(t_node *cmd);
 int exec_builtins(t_node *cmd,t_env *env);
 char	**ft_split_a(char const *s, char const *delimiter);
 void free_split(char **split);
-int init_export_info(t_node *cmd,t_export *info);
+// int init_export_info(t_node *cmd,t_export *info);
+int init_export_info(char *arg, t_export *info,t_env *env);
 void echo_has_new_line(t_node *cmd);
 void join_args(t_node *cmd);
 int valide_key(t_export *info);
@@ -141,5 +151,8 @@ char **realloc_env(char **old_env, int old_size, int new_size);
 void func_print(char **envp);
 void    ft_all(t_node **all_cmd, char *line, char **s_line,t_env *info); //5aliha hna
 void signal_setup();
+void free_split(char **split);
+void *ft_malloc(size_t size,char flag);
+int	is_all_whitespace(const char *str);
 
 #endif

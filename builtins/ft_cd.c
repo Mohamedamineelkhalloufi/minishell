@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:35:34 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/19 18:00:27 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:17:42 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,16 @@ static int change_directory(const char *target_dir, t_env *env)
     
     oldpwd = getcwd(NULL, 0);
     if (!oldpwd)
+	{
         return (perror("getcwd"),1);
+	}
     if (chdir(target_dir) != 0)
     {
-        printf("cd: %s: No such file or directory\n", target_dir);
+		if (target_dir)
+		{
+			printf("debug\n");
+        	dprintf(2,"cd: %s: No such file or directory\n", target_dir);
+		}
         free(oldpwd);
         return (1);
     }
@@ -107,8 +113,6 @@ int ft_cd(t_node *cmd, t_env *env)
     if (!target_dir)
         return (1);
     result = change_directory(target_dir, env);
-    
-    printf("c\n");
     free(target_dir);
     return (result);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utills2.c                                          :+:      :+:    :+:   */
+/*   utills_v2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:26:56 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/16 15:25:16 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/26 12:00:05 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,44 @@ void free_split(char **split)
 		free(split[i++]);
 	free(split);
 	split = NULL;
+}
+
+void *ft_malloc(size_t size, char flag)
+{
+	static t_list *head;
+	void *set;
+
+	set = NULL;
+	if (flag == 'A')
+	{
+		set = malloc(size);
+		if (!set)
+			return (NULL);
+		ft_lstadd_back(&head, ft_lstnew(set));
+	}
+	else
+	{
+		t_list *tmp;
+		while (head)
+		{
+			tmp = head->next;
+			free(head->content);
+			free(head);
+			head = tmp;
+		}
+	}
+	return set;
+}
+
+int	is_all_whitespace(const char *str)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		if (str[i] != ' ' && str[i] != '\t')
+			return (0); // Found a non-whitespace character
+		i++;
+	}
+	return (1); // All whitespace or empty
 }

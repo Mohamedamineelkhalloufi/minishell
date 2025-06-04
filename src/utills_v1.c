@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/19 18:44:34 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:09:38 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ char *resolve_path(char *command, char **envp)
 		free(temp);
 		if (access(full_path, X_OK) == 0)
 		{
+			// printf("here\n");
 			//ft_free_split(paths);
 			return (full_path);
 		}
@@ -186,7 +187,7 @@ int exec_builtins(t_node *cmd,t_env *env)
 	if (is_builtin(cmd) == 1)
 	{
 		if (ft_strcmp(cmd->cmd[0], "cd") == 0)
-			res = ft_cd(cmd,env);
+				res = ft_cd(cmd,env);
 		else if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 			res = ft_echo(cmd);
 		else if (ft_strcmp(cmd->cmd[0], "env") == 0)
@@ -198,7 +199,7 @@ int exec_builtins(t_node *cmd,t_env *env)
 		else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
 			res = ft_pwd(cmd);
 		else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
-			res = ft_unset(cmd,env);
+			res = ft_unset(cmd,&env);
 	}
 	return (res);
 }

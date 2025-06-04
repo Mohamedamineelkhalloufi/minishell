@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   redirctions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:30 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/19 20:36:08 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/03 16:01:29 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 static int ft_output(t_redi *redier)
 {
     int fd = open(redier->file_num, O_CREAT | O_WRONLY | O_TRUNC,0644);
     if (fd == -1)
     {
-        perror("minishell\n");
         return (-1);
     }
     if (dup2(fd, STDOUT_FILENO) == -1)
@@ -30,23 +28,26 @@ static int ft_output(t_redi *redier)
     close(fd);
     return 0;
 }
+
 static int ft_input(t_redi *redier)
 {
-    int fd = open(redier->file_num,O_RDONLY,0644);
+    int fd = open(redier->file_num, O_RDONLY);
     if (fd == -1)
     {
-        perror("minishell\n");
+        perror("Dash@Ameed:");
         return (-1);
     }
     if (dup2(fd, STDIN_FILENO) == -1)
     {
-        perror("minishell: dup2 error\n");
+        perror("minishell: dup2 error");
         close(fd);
         return (-1);
     }
+
     close(fd);
     return 0;
 }
+
 static int ft_append(t_redi *redier)
 {
     int fd = open(redier->file_num, O_CREAT | O_WRONLY | O_APPEND,0644);
@@ -67,40 +68,52 @@ static int ft_append(t_redi *redier)
 
 int ft_heredoc(t_redi *redier)
 {
-    int pipefd[2];
-    if (pipe(pipefd) == -1)
-    {
-        perror("pipe");
-        return -1;
-    }
+    char    *line;
+    static int count = 0;
+    char *tmp;
+    int     fd;
+
+    tmp = ft_strjoin("file_",ft_itoa(count++));
+    fd = open(tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (fd < 0)
+        return (perror("open"), -1);
+    
     while (1)
     {
-        char *line = readline("heredoc > ");
-        if (!line || !strcmp(redier->file_num, line))
+        line = readline("heredoc > ");
+        if (!line)
+            break;
+        if (ft_strcmp(redier->file_num, line) == 0)
         {
             free(line);
             break;
         }
-        write(pipefd[1], line, ft_strlen(line));
-        write(pipefd[1], "\n", 1);
+        write(fd, line, ft_strlen(line));
+        write(fd, "\n", 1);
         free(line);
     }
-    close(pipefd[1]);
-    if (dup2(pipefd[0], STDIN_FILENO) == -1)
-    {
-        perror("dup2");
-        close(pipefd[0]);
-        return -1;
-    }
-    close(pipefd[0]);
-    return 0;
-}
+    close(fd);
 
+    redier->heredoc_file = strdup(tmp);
+    return (0);
+}
 int ft_redirect(t_redi *redir)
 {
-    int res;
+    int res = 0;
+    t_redi *last_heredoc = NULL;
 
-    res = -1;
+    t_redi *tmp = redir;
+    while (tmp)
+    {
+        if (tmp->type == 3)
+        {
+            res = ft_heredoc(tmp);
+            if (res == -1)
+                return -1;
+            last_heredoc = tmp;
+        }
+        tmp = tmp->next;
+    }
     while (redir)
     {
         if (redir->type == 1)
@@ -109,9 +122,21 @@ int ft_redirect(t_redi *redir)
             res = ft_input(redir);
         else if (redir->type == 2)
             res = ft_append(redir);
-        else if (redir->type == 3)
-            res = ft_heredoc(redir);
         redir = redir->next;
     }
-    return (res);
+    if (last_heredoc)
+    {
+        int fd = open(last_heredoc->heredoc_file, O_RDONLY);
+        if (fd < 0)
+            return (perror("open heredoc"), -1);
+        if (dup2(fd, STDIN_FILENO) == -1)
+        {
+            perror("dup2");
+            close(fd);
+            return -1;
+        }
+        close(fd);
+    }
+
+    return res;
 }

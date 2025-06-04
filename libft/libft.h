@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:46:23 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/16 17:54:37 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/05/22 09:54:09 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,16 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+typedef	struct	s_list
+{
+	void			*content;
+	struct s_list	*next;
+}				t_list;
+
 void	ft_putstr(char *str);
+t_list	*ft_lstlast(t_list *lst);
+void    ft_lstadd_back(t_list **alst, t_list *new);
+t_list  *ft_lstnew(void *content);
 int		ft_atoi(const char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_bzero(void *s, size_t n);
