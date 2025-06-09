@@ -32,16 +32,7 @@ int main(int ac,char **av,char **envp)
             return 0;
         add_history(line);
         if (!env)
-            env = envp_dup(env, envp);
-        else
-        {
-            env->next = malloc(sizeof(t_env));
-            if (env->next)
-            {
-                env->next->my_envp = env->my_envp;
-                env->next->next = NULL;
-            }
-        }
+            env = envp_dup(envp);
         ft_all(&head ,line ,NULL ,env);
         if(head)
            pipe_hundel(head, env);
