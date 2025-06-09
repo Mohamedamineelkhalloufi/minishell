@@ -12,13 +12,14 @@
 
 #include "../minishell.h"
 
-void envp_dup(t_env *cmd, char **envp)
+t_env *envp_dup(char **envp)
 {
 	int i;
 	int env_len;
 	char **str_env;
 
 	env_len = 0;
+	 t_env *cmd = malloc(sizeof(t_env));
 	while (envp[env_len])
 		env_len++;
 	str_env = (char **)malloc((env_len + 1) * sizeof(char *));
@@ -34,6 +35,7 @@ void envp_dup(t_env *cmd, char **envp)
 	cmd->my_envp = str_env;
 	cmd->env_len = env_len;
 	// free(str_env);
+	return (cmd);
 }
 
 char **realloc_env(char **old_env, int old_size, int new_size)
