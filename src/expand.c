@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/20 16:02:00 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:25:23 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*expand_val(char *s, t_env *info)
 		return (dollar);
 	if (start[1] && start[1] == '?')
 		return (ft_itoa(g_es));
-	if (start[1] && start[1] == ' ')
+	if (start[1] && !ft_isalnum(start[1]))
 		return (ft_strdup("$"));
 	return (ft_strdup(""));
 }	
