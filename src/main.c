@@ -21,9 +21,9 @@ int main(int ac,char **av,char **envp)
     (void)av;
     char *line;
     signal_setup();
-    t_env *env = malloc(sizeof(t_env));
-    if (!env)
-        return 1;
+    t_env *env;
+
+    env = NULL;
     while (1)
     {
         t_node *head = NULL;
@@ -31,8 +31,8 @@ int main(int ac,char **av,char **envp)
         if (!line)
             return 0;
         add_history(line);
-        if (!env->my_envp || !env->my_envp[0])
-            envp_dup(env, envp);
+        if (!env)
+            env = envp_dup(env, envp);
         else
         {
             env->next = malloc(sizeof(t_env));
