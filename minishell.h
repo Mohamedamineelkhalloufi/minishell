@@ -146,7 +146,8 @@ void echo_has_new_line(t_node *cmd);
 void join_args(t_node *cmd);
 int valide_key(t_export *info);
 int builtin_requires_parent(t_node *cmd);
-void envp_dup(t_env *cmd, char **envp);
+//void envp_dup(t_env *cmd, char **envp);
+t_env *envp_dup(char **envp);
 char **realloc_env(char **old_env, int old_size, int new_size);
 void func_print(char **envp);
 void    ft_all(t_node **all_cmd, char *line, char **s_line,t_env *info); //5aliha hna
