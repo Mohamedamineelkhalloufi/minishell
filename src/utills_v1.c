@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/09 02:40:06 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:36:16 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_env *envp_dup(char **envp)
 		env_len++;
 	str_env = (char **)malloc((env_len + 1) * sizeof(char *));
 	if (!str_env)
-		return;
+		return(NULL);
 	i = 0;
 	while (i < env_len)
 	{

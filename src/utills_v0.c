@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:34:52 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/26 12:02:40 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:22:11 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,16 @@ void	ft_all(t_node **all_cmd, char *line, char **s_line, t_env *info)
 	else
 	{
 		plus = expand_line(line, 0, ft_strdup(""), info);
-		s_line = ft_split(plus, '|');
+		if (plus)
+		{
+			s_line = ft_split(plus, '|');
+            free(plus);	
+		}
 		while (s_line[i])
 		{
 			if (!lexer(all_cmd, s_line[i], NULL))
 			{
+				free_split(s_line);
 				break ;
 			}
 			i++;
@@ -48,7 +53,7 @@ t_node	*init_node(int num_cmd)
 		return (NULL);
 	new_node->cmd = (char **)malloc((sizeof(char *) * (num_cmd + 1)));
 	if (!new_node->cmd)
-		return (NULL);
+		return (free_node(new_node),NULL);
 	new_node->file = NULL;
 	new_node->next = NULL;
 	return (new_node);

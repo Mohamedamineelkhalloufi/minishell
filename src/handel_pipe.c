@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/03 16:06:47 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:46:48 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static void setup_child_process(t_node *cmd, int prev_pipe, int pipefds[2], int 
     close(pipefds[1]);
 }
 
-static void handle_single_builtin(t_node *cmd, t_env *env) {
+static void handle_single_builtin(t_node *cmd, t_env *env)
+{
     int ret;
 
     if (cmd->file && ft_redirect(cmd->file) == -1)
@@ -49,7 +50,8 @@ static void execute_command(t_node *cmd, t_env *env)
     char *full_path;
     int ret;
 
-    if (is_builtin(cmd)) {
+    if (is_builtin(cmd))
+    {
         ret = exec_builtins(cmd, env);
         exit(ret);
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:00 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/09 16:23:59 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:59:15 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 	p_line = ft_split_space(fix_line(s_line));
 	if (check_redirections(p_line) == 0)
 	{
+		free_split(p_line);
 		ft_putendl_fd("Dash@Ameed: syntax error near unexpected", 2);
 		return (0);
 	}
@@ -28,6 +29,7 @@ int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 		cmd_num = num_cmd(p_line);
 		*all_cmd = creat_node(*all_cmd, p_line, cmd_num);
 	}
+	free_split(p_line);
 	return (1);
 }
 

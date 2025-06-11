@@ -6,32 +6,37 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/09 15:25:23 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:46:38 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*expand_line(char *line, int dquote, char *plus, t_env *info)
+char *expand_line(char *line, int dquote, char *plus, t_env *info)
 {
-	int		i;
-	char	*line_plus;
-
-	while (line && *line)
-	{
-		i = 0;
-		while (line[i] && line[i] != '$')
-			i = skip_quotes(line, i, &dquote);
-		line_plus = ft_substr(line, 0, i);
-		plus = ft_strjoin(plus, line_plus);
-		if (line[i] == '$')
-		{
-			line += i;
-			i = handle_dollar(&plus, line, info);
-		}
-		line += i;
-	}
-	return (plus);
+    int i;
+    char *line_plus;
+    char *temp_plus;
+    
+    while (line && *line)
+    {
+        i = 0;
+        while (line[i] && line[i] != '$')
+            i = skip_quotes(line, i, &dquote);
+            
+        line_plus = ft_substr(line, 0, i);
+        temp_plus = ft_strjoin(plus, line_plus);
+        free(plus);
+        free(line_plus);
+        plus = temp_plus;
+        if (line[i] == '$')
+        {
+            line += i;
+            i = handle_dollar(&plus, line, info);
+        }
+        line += i;
+    }
+    return (plus);
 }
 
 int	skip_quotes(char *line, int i, int *dquote)

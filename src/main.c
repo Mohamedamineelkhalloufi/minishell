@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:07 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/09 02:38:56 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:48:33 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,36 +35,9 @@ int main(int ac,char **av,char **envp)
             env = envp_dup(envp);
         ft_all(&head ,line ,NULL ,env);
         if(head)
-           pipe_hundel(head, env);
-
+            pipe_hundel(head, env);
         
-        // t_node *test_test = head;
-        // while (test_test)
-        // {
-        //     t_redi *lol = test_test->file;
-        //     int i = 0;
-        //     while (test_test->cmd[i])
-        //     {
-        //         printf("cmd[ %s ]   ", test_test->cmd[i]);
-        //         i++;
-        //     }
-        //     printf("\n");
-        //     while (lol)
-        //     {
-        //         printf("file_num[ %s ] --> ", lol->file_num);
-        //         if (lol->type == 0)
-        //             printf("type_file [ FILE_IN ]\n");
-        //         else if (lol->type == 1)
-        //             printf("type_file [ FILE_OUT \n]");
-        //         else if (lol->type == 2)
-        //             printf("type_file [ FILE_APPEND ]\n");
-        //         else
-        //             printf("type_file [ FILE_HEREDOC ]\n");
-        //         lol = lol->next;
-        //     }
-        //     printf("-------------------------------------------\n");
-        //     test_test = test_test->next;
-        // }
+        free(line);
     }
     clear_history();
 }

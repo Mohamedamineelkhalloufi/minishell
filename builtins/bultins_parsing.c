@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:59:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/23 22:20:09 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:34:13 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,47 @@ void echo_has_new_line(t_node *cmd)
     }
 }
 
-void join_args(t_node *cmd)
+int join_args(t_node *cmd)
 {
     int i;
     char *str;
-    char *tmp;
-
+    // char *tmp;
+    char *new_str;
+    
     str = ft_strdup("");
+    if (!str)
+        return (-1);
     i = 1;
     if (cmd->echo_info->new_line == 1)
         i = 2;
     while (cmd->cmd[i])
     {
-        tmp = str;
-        str = ft_strjoin(str, cmd->cmd[i]);
-        free(tmp);
+        new_str = ft_strjoin(str, cmd->cmd[i]);
+        if (!new_str)
+            return (free(str),-1);
+        free(str);
+        str = new_str;
         if (cmd->cmd[i + 1])
         {
-            tmp = str;
-            str = ft_strjoin(str, " ");
-            free(tmp);
+            new_str = ft_strjoin(str, " ");
+            if (!new_str)
+                return (free(str),-1);
+            free(str);
+            str = new_str;
         }
         i++;
     }
     cmd->echo_info->echo_str = str;
+    return (0);
+}
+
+void free_echo_info(t_echo *echo_info)
+{
+    if (!echo_info)
+        return;
+    if (echo_info->echo_str)
+        free(echo_info->echo_str);
+    free(echo_info);
 }
 
 int init_export_info(char *arg, t_export *info,t_env *env)

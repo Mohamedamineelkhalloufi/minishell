@@ -101,9 +101,10 @@ int  handle_redirects(char *line, char *new_line, int *i, int *l);
 /*--------------------------------------------_parser_----------------------------------------*/
 
 t_redi *creat_file(t_redi *head, char *file_num, char *check);
+void free_node(t_node *node);
 t_node *init_node(int num_cmd);
 t_node *creat_node(t_node *head, char **cmd, int num_cmd);
-void	process_cmd(t_node *new_node, char **cmd);
+int	process_cmd(t_node *new_node, char **cmd);
 void set_redi_type(t_redi *new_redi, char *check);
 void add_redi_to_list(t_redi *head, t_redi *new_redi);
 
@@ -143,7 +144,8 @@ void free_split(char **split);
 // int init_export_info(t_node *cmd,t_export *info);
 int init_export_info(char *arg, t_export *info,t_env *env);
 void echo_has_new_line(t_node *cmd);
-void join_args(t_node *cmd);
+int join_args(t_node *cmd);
+void free_echo_info(t_echo *echo_info);
 int valide_key(t_export *info);
 int builtin_requires_parent(t_node *cmd);
 //void envp_dup(t_env *cmd, char **envp);

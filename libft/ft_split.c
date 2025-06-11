@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 21:30:33 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/26 12:01:05 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:55:00 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	**ft_split(const char *s, char sep)
 		if (!s[i])
 			break ;
 		len = get_word_len(&s[i], sep);
-		res[j] = copy_word(&s[i], len);
+		res[j] = copy_word(&s[i], len);//res[j] has leaks cuz return value of copy word is allocated
 		if (!res[j])
 			return (free_all(res, j));
 		i += len;

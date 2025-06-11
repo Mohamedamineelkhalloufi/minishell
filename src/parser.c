@@ -6,11 +6,12 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:14 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/26 12:00:31 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:24:03 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 {
@@ -22,7 +23,8 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	new_node = init_node(num_cmd);
 	if (!new_node)
 		return (NULL);
-	process_cmd(new_node, cmd);
+	if (process_cmd(new_node, cmd) != 0)
+		return (free_node(new_node),NULL);
 	if (!head)
 		return (new_node);
 	tmp = head;
@@ -32,26 +34,37 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	return (head);
 }
 
-void	process_cmd(t_node *new_node, char **cmd)
+int process_cmd(t_node *new_node, char **cmd)
 {
-	int	i;
-	int	l;
-
-	i = 0;
-	l = 0;
-	while (cmd[i])
-	{
-		if (ft_strchr("<>", cmd[i][0]) && cmd[i + 1])
-		{
-			new_node->file = creat_file(new_node->file, qoute_remov(cmd[i + 1],
-						0, 0, 0), cmd[i]);
-			i += 2;
-		}
-		else
-			new_node->cmd[l++] = qoute_remov(cmd[i++], 0, 0, 0);
-	}
-	new_node->cmd[l] = NULL;
+    int i;
+    int l;
+    char *processed_str;
+    
+    i = 0;
+    l = 0;
+    while (cmd[i])
+    {
+        if (ft_strchr("<>", cmd[i][0]) && cmd[i + 1])
+        {
+            processed_str = qoute_remov(cmd[i + 1], 0, 0, 0);
+            if (!processed_str)
+                return (-1);
+            new_node->file = creat_file(new_node->file, processed_str, cmd[i]);
+            i += 2;
+        }
+        else
+        {
+            processed_str = qoute_remov(cmd[i], 0, 0, 0);
+            if (!processed_str)
+                return (-1);
+            new_node->cmd[l++] = processed_str;
+            i++;
+        }
+    }
+    new_node->cmd[l] = NULL;
+    return (0);
 }
+
 
 t_redi	*creat_file(t_redi *head, char *file_num, char *check)
 {
@@ -61,7 +74,7 @@ t_redi	*creat_file(t_redi *head, char *file_num, char *check)
 		return (NULL);
 	new_redi = malloc(sizeof(t_redi));
 	if (!new_redi)
-		return (NULL);
+		return (free(file_num),NULL);
 	set_redi_type(new_redi, check);
 	new_redi->file_num = file_num;
 	new_redi->next = NULL;
@@ -94,4 +107,49 @@ void	add_redi_to_list(t_redi *head, t_redi *new_redi)
 	while (stor_head->next)
 		stor_head = stor_head->next;
 	stor_head->next = new_redi;
+}
+void free_redi(t_redi *redi)
+{
+    if (!redi)
+        return;
+    if (redi->file_num)
+        free(redi->file_num);
+    free(redi);
+}
+
+void free_redi_list(t_redi *head)
+{
+    t_redi *current;
+    t_redi *next;
+    
+    current = head;
+    while (current)
+    {
+        next = current->next;
+        free_redi(current);
+        current = next;
+    }
+}
+void free_node(t_node *node)
+{
+    int i;
+    
+    if (!node)
+        return;
+    if (node->cmd)
+    {
+        i = 0;
+        while (node->cmd[i])
+        {
+            free(node->cmd[i]);
+            i++;
+        }
+        free(node->cmd);
+    }
+    if (node->file)
+        free_redi_list(node->file);
+    if (node->echo_info)
+        free_echo_info(node->echo_info);
+    
+    free(node);
 }
