@@ -61,7 +61,6 @@ typedef struct s_echo
             !!! to sumlit bash add space between strings!!!   
     */
 }t_echo;
-
 typedef struct s_env
 {
     char **my_envp;
@@ -69,6 +68,7 @@ typedef struct s_env
     struct s_env *next;
 }   t_env;
 
+void free_env(t_env *env);
 typedef struct s_node
 {
     char **cmd;//arry of string has command and options like : {"ls", "-l", "-a"}
@@ -89,6 +89,7 @@ int d_quote(char *line, int dquote, int quote, int i);
 int check_pipe(char *line);
 int if_check_pipe(char *line, int i, char q);
 char	*qoute_remov(char *line, char q, int i, int l);
+void free_all_commands(t_node *head);
 
 /*--------------------------------------------_lexer_----------------------------------------*/
 

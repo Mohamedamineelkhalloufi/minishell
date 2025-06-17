@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:00 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/17 16:18:09 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:14:23 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 {
+	char *new_line;
 	int	cmd_num;
 
 	cmd_num = 0;
-	p_line = ft_split_space(fix_line(s_line));
+	new_line = fix_line(s_line);
+	p_line = ft_split_space(new_line);
+	free(new_line);
 	if (check_redirections(p_line) == 0)
 	{
 		free_split(p_line);
@@ -27,9 +30,9 @@ int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 	else
 	{
 		cmd_num = num_cmd(p_line);
-		*all_cmd = creat_node(*all_cmd, p_line, cmd_num);//return command mallocad!!
+		*all_cmd = creat_node(*all_cmd, p_line, cmd_num); //return command mallocad!!
+		free_split(p_line);
 	}
-	free_split(p_line);
 	return (1);
 }
 

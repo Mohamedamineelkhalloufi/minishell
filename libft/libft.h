@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:46:23 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/09 16:22:42 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/17 22:32:38 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef	struct	s_list
 	struct s_list	*next;
 }				t_list;
 
+char	*ft_strjoin1(char const *s1, char const *s2);
 void	ft_putstr(char *str);
 t_list	*ft_lstlast(t_list *lst);
 void    ft_lstadd_back(t_list **alst, t_list *new);

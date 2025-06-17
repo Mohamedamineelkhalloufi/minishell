@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utills_v2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:26:56 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/11 17:05:42 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 22:21:42 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,17 +66,18 @@ char	**ft_split_a(char const *s, char const *delimiter)
 	lst[i] = NULL;
 	return (lst);
 }
-void free_split(char **split)
+void	free_split(char **split)
 {
-	int	i;
-	
+	int	i = 0;
+
 	if (!split)
-		return;
-	i = 0;
+		return ;
 	while (split[i])
-		free(split[i++]);
+	{
+		free(split[i]);
+		i++;
+	}
 	free(split);
-	split = NULL;
 }
 
 void *ft_malloc(size_t size, char flag)

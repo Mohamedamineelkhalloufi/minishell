@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utills_v1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/17 16:29:48 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 22:24:01 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,23 @@ t_env *envp_dup(char **envp)
 {
 	int i;
 	int env_len;
-	char **str_env;
 
 	env_len = 0;
 	 t_env *cmd = malloc(sizeof(t_env));
 	while (envp[env_len])
 		env_len++;
-	str_env = (char **)malloc((env_len + 1) * sizeof(char *));
-	if (!str_env)
+	cmd->my_envp = (char **)malloc((env_len + 1) * sizeof(char *));
+	if (!cmd->my_envp)
 		return(NULL);
 	i = 0;
-	while (i < env_len)
+	while (envp[i])
 	{
-		str_env[i] = ft_strdup(envp[i]);
+		cmd->my_envp[i] = ft_strdup(envp[i]);
 		i++;
 	}
-	str_env[i] = NULL;
-	cmd->my_envp = str_env;
+	cmd->my_envp[i] = NULL;
 	cmd->env_len = env_len;
-	// free(str_env);
+	
 	return (cmd);
 }
 
@@ -98,13 +96,13 @@ char *resolve_path(char *command, char **envp)
 		if (access(full_path, X_OK) == 0)
 		{
 			// printf("here\n");
-			//ft_free_split(paths);
+			free_split(paths);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
-	//ft_free_split(paths);
+	free_split(paths);
 	return (NULL);
 }
 int get_num_commands(t_node *cmd)
@@ -202,7 +200,6 @@ int exec_builtins(t_node *cmd,t_env *env)
 			res = ft_pwd(cmd);
 		else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
 		{
-			printf("jhfdgfsd\n");
 			res = ft_unset(cmd,&env);
 		}
 	}

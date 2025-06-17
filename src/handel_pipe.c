@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handel_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/11 16:46:48 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 22:37:33 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static void execute_command(t_node *cmd, t_env *env)
     if (is_builtin(cmd))
     {
         ret = exec_builtins(cmd, env);
+        free_env(env);
+        free_all_commands(cmd);
         exit(ret);
+
     }
     else
     {
@@ -63,12 +66,13 @@ static void execute_command(t_node *cmd, t_env *env)
             if (!full_path)
             {
                 dprintf(2, "Dash@Ameed: %s: command not found\n", cmd->cmd[0]);
+                free_env(env);
+                free_all_commands(cmd);
                 exit(127);
             }
             execve(full_path, cmd->cmd, env->my_envp);
-            perror("execve");
-            free(full_path);
-            exit(126);
+            return (perror("execve"),free(full_path), \
+            free_env(env),free_all_commands(cmd),exit(126),(void )0);  
         }
         else
             exit(0);

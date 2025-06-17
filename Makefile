@@ -2,7 +2,7 @@ NAME = minishell
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror  #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror  -g -O5 #-fsanitize=address
 
 SRC = src/signal.c src/main.c src/lexer.c src/parser.c src/syntax_error.c src/expand.c \
 	src/handel_pipe.c src/utills_v2.c src/utills_v1.c src/utills_v0.c src/redirctions.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utills_v0.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:34:52 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/11 15:22:11 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 21:11:05 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_all(t_node **all_cmd, char *line, char **s_line, t_env *info)
 			}
 			i++;
 		}
+		free_split(s_line);
 	}
 }
 
