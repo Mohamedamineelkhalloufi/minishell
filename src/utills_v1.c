@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/11 14:36:16 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:29:48 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,10 @@ int exec_builtins(t_node *cmd,t_env *env)
 		else if (ft_strcmp(cmd->cmd[0], "pwd") == 0)
 			res = ft_pwd(cmd);
 		else if (ft_strcmp(cmd->cmd[0], "unset") == 0)
+		{
+			printf("jhfdgfsd\n");
 			res = ft_unset(cmd,&env);
+		}
 	}
 	return (res);
 }

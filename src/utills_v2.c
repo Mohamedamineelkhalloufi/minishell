@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:26:56 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/26 12:00:05 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:05:42 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ char	**ft_split_a(char const *s, char const *delimiter)
 void free_split(char **split)
 {
 	int	i;
-
+	
+	if (!split)
+		return;
 	i = 0;
 	while (split[i])
 		free(split[i++]);

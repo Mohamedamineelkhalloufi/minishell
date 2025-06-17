@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:00 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/11 14:59:15 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:18:09 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 	else
 	{
 		cmd_num = num_cmd(p_line);
-		*all_cmd = creat_node(*all_cmd, p_line, cmd_num);
+		*all_cmd = creat_node(*all_cmd, p_line, cmd_num);//return command mallocad!!
 	}
 	free_split(p_line);
 	return (1);

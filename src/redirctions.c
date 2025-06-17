@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:30 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/11 16:27:05 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:26:26 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int ft_heredoc(t_redi *redier)
     redier->heredoc_file = strdup(tmp);
     return (0);
 }
+
 int ft_redirect(t_redi *redir)
 {
     int res = 0;

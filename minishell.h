@@ -80,6 +80,8 @@ typedef struct s_node
 }t_node;
 
 
+void free_redi_list(t_redi *r);
+
 /*-----------------------------------------_syntax_erroe_------------------------------------*/
 
 int check_split(char *line, int i, char q);

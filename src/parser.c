@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:14 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/11 16:24:03 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:07:31 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,26 +108,41 @@ void	add_redi_to_list(t_redi *head, t_redi *new_redi)
 		stor_head = stor_head->next;
 	stor_head->next = new_redi;
 }
-void free_redi(t_redi *redi)
-{
-    if (!redi)
-        return;
-    if (redi->file_num)
-        free(redi->file_num);
-    free(redi);
-}
+// void free_redi(t_redi *redi)
+// {
+//     if (!redi)
+//         return;
+//     if (redi->file_num)
+//         free(redi->file_num);
+//     free(redi);
+// }
 
-void free_redi_list(t_redi *head)
-{
-    t_redi *current;
-    t_redi *next;
+// void free_redi_list(t_redi *head)
+// {
+//     t_redi *current;
+//     t_redi *next;
     
-    current = head;
-    while (current)
+//     current = head;
+//     while (current)
+//     {
+//         next = current->next;
+//         free_redi(current);
+//         current = next;
+//     }
+// }
+
+void free_redi_list(t_redi *r)
+{
+    t_redi *tmp;
+    while (r)
     {
-        next = current->next;
-        free_redi(current);
-        current = next;
+        tmp = r;
+        if (r->file_num)
+            free(r->file_num);
+        if (r->heredoc_file)
+            free(r->heredoc_file);
+        r = r->next;
+        free(tmp);
     }
 }
 void free_node(t_node *node)
@@ -146,10 +161,10 @@ void free_node(t_node *node)
         }
         free(node->cmd);
     }
-    if (node->file)
-        free_redi_list(node->file);
-    if (node->echo_info)
-        free_echo_info(node->echo_info);
+    // if (node->file)
+    //     free_redi_list(node->file);
+    // if (node->echo_info)
+    //     free_echo_info(node->echo_info);
     
     free(node);
 }
