@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:30 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/17 21:11:45 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/19 00:57:19 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,22 @@ int ft_heredoc(t_redi *redier)
     char    *line;
     static int count = 0;
     char *tmp;
+    char *id;
     int     fd;
 
-    tmp = ft_strjoin("file_",ft_itoa(count++));
+    id = ft_itoa(count++);
+    if (!id)
+        return (-1);
+    tmp = ft_strjoin(".file_", id);
+    free(id);
     if (!tmp)
-        return(free(tmp),-1);
+        return (-1);
+    free_heredoc(NULL,NULL,tmp);
     fd = open(tmp, O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (fd < 0)
-        return (perror("open"), -1);
-    
+        return (perror("open"), free(tmp), -1);
+    signal(SIGINT, SIG_DFL);
+    signal(SIGINT, g_handler);
     while (1)
     {
         line = readline("heredoc > ");
@@ -95,10 +102,11 @@ int ft_heredoc(t_redi *redier)
         free(line);
     }
     close(fd);
-
     redier->heredoc_file = strdup(tmp);
+    free(tmp);
     return (0);
 }
+
 
 int ft_redirect(t_redi *redir)
 {
@@ -140,6 +148,5 @@ int ft_redirect(t_redi *redir)
         }
         close(fd);
     }
-
     return res;
 }

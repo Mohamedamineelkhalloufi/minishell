@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:14 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/17 21:59:04 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/18 20:33:24 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int process_cmd(t_node *new_node, char **cmd)
         {
             processed_str = qoute_remov(cmd[i], 0, 0, 0);
             if (!processed_str)
-                return (-1);
+                return (printf("ERROR -1\n"),-1);
             new_node->cmd[l++] = processed_str;
             i++;
         }
@@ -77,6 +77,7 @@ t_redi	*creat_file(t_redi *head, char *file_num, char *check)
 		return (free(file_num),NULL);
 	set_redi_type(new_redi, check);
 	new_redi->file_num = file_num;
+    new_redi->heredoc_file = NULL;
 	new_redi->next = NULL;
 	if (!head)
 		return (new_redi);

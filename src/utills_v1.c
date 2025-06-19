@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/17 22:24:01 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/19 03:20:47 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char *get_env_value(const char *key, char **envp)
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], key, key_len) == 0 && envp[i][key_len] == '=')
-			return (envp[i] + key_len + 1);
+			return (ft_strdup(envp[i] + key_len + 1));
 		i++;
 	}
 	return (NULL);
@@ -81,11 +81,13 @@ char *resolve_path(char *command, char **envp)
 	char	**paths;
 	char	*full_path;
 	int		i = 0;
-
+	if(access(command,X_OK|F_OK) != -1)
+		return command;
 	path_env = get_env_value("PATH",envp);
 	if (!path_env)
 		return (NULL);
 	paths = ft_split(path_env, ':');
+	free(path_env);
 	if (!paths)
 		return (NULL);
 	while (paths[i])
@@ -95,7 +97,6 @@ char *resolve_path(char *command, char **envp)
 		free(temp);
 		if (access(full_path, X_OK) == 0)
 		{
-			// printf("here\n");
 			free_split(paths);
 			return (full_path);
 		}
@@ -167,7 +168,7 @@ int builtin_requires_parent(t_node *cmd)
     if (!cmd || !cmd->cmd || !cmd->cmd[0])
         return 0;
 
-    const char *parent_builtins[] = {"cd", "export", "unset", "exit", NULL};
+    const char *parent_builtins[] = {"cd", "export", "unset", "exit", "pwd", NULL};
 	i = 0;
     while (parent_builtins[i])
 	{

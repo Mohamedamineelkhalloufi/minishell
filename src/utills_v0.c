@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:34:52 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/17 21:11:05 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:43:46 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,7 @@ void	ft_all(t_node **all_cmd, char *line, char **s_line, t_env *info)
 		while (s_line[i])
 		{
 			if (!lexer(all_cmd, s_line[i], NULL))
-			{
-				free_split(s_line);
 				break ;
-			}
 			i++;
 		}
 		free_split(s_line);

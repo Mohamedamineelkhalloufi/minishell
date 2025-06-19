@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:29:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/02 14:04:39 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/19 03:31:46 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int process_single_export(char *arg, t_env **env)
     
     if (i > -1)
     {
-        // printf("sd\n");
         if (info.append == 1)
             tmp1 = ft_strjoin(old_value, info.value);
         else
@@ -84,8 +83,8 @@ int process_single_export(char *arg, t_env **env)
             tmp2 = ft_strjoin(temp3, info.value);
             free(temp3);
         }
-        
         (*env)->my_envp[(*env)->env_len] = tmp2;
+        // printf("%s\n",(*env)->my_envp[(*env)->env_len]);
         (*env)->env_len++;
         (*env)->my_envp[(*env)->env_len] = NULL;
     }

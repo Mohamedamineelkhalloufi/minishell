@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/17 22:35:50 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/18 10:01:46 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char *expand_line(char *line, int dquote, char *plus, t_env *info)
             
         line_plus = ft_substr(line, 0, i);
         temp_plus = ft_strjoin1(plus, line_plus);
-        free(plus);
+        // free(plus);
         free(line_plus);
         plus = temp_plus;
         if (line[i] == '$')
@@ -67,9 +67,8 @@ int	handle_dollar(char **plus, char *line, t_env *info)
 	i = 1;
 	exp = expand_val(line, info);
 	*plus = ft_strjoin1(*plus, exp);
-	free(exp);
 	if (line[i] && (line[i] == '?' || ft_isdigit(line[i])))
-		i++;
+	i++;
 	else if (line[i] == '$')
 	{
 		while (line[i] == '$')
@@ -79,8 +78,9 @@ int	handle_dollar(char **plus, char *line, t_env *info)
 	else
 	{
 		while (line[i] && ft_isalnum(line[i]))
-			i++;
+		i++;
 	}
+	free(exp);
 	return (i);
 }
 

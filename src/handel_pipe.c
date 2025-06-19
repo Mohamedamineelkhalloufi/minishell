@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/17 22:37:33 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/19 03:22:34 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,7 @@ static void handle_single_builtin(t_node *cmd, t_env *env)
 static void execute_command(t_node *cmd, t_env *env)
 {
     char *full_path;
-    int ret;
-
-    if (is_builtin(cmd))
-    {
-        ret = exec_builtins(cmd, env);
-        free_env(env);
-        free_all_commands(cmd);
-        exit(ret);
-
-    }
-    else
-    {
+ 
         if (cmd->cmd[0] && !is_all_whitespace(cmd->cmd[0]))
         {
             full_path = resolve_path(cmd->cmd[0], env->my_envp);
@@ -75,32 +64,38 @@ static void execute_command(t_node *cmd, t_env *env)
             free_env(env),free_all_commands(cmd),exit(126),(void )0);  
         }
         else
-            exit(0);
-    }
+            return(free_env(env),free_all_commands(cmd),exit(0),(void )0);
 }
-static void handle_single_command(t_node *cmd, t_env *env) {
-    pid_t pid;
-    int status;
+// static void handle_single_command(t_node *cmd, t_env *env) {
+//     pid_t pid;
+//     int status;
 
-    if (is_builtin(cmd) && builtin_requires_parent(cmd))
-        return( handle_single_builtin(cmd, env));
-    pid = fork();
-    if (pid == 0)
-    {
-        if (cmd->file && ft_redirect(cmd->file) == -1)
-            return;
-        if(cmd)
-            execute_command(cmd, env);
-    }
-    else if (pid < 0)
-        perror("fork failed");
-    else 
-    {
-        waitpid(pid, &status, 0);
-        if (WIFEXITED(status))
-            g_es = WEXITSTATUS(status);
-    }
-}
+//     if (is_builtin(cmd) && builtin_requires_parent(cmd))
+//         return( handle_single_builtin(cmd, env));
+//     signal(SIGINT, SIG_IGN);
+//     pid = fork();
+//     if (pid == 0)
+//     {
+        
+//         if (cmd->file && ft_redirect(cmd->file) == -1)
+//             return;
+//         if(cmd)
+//             execute_command(cmd, env);
+//     }
+//     else if (pid < 0)
+//         perror("fork failed");
+//     else 
+//     {
+//         waitpid(pid, &status, 0);
+//         signal_setup();
+//         if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+//         {
+//             // free_env(env);
+//             // free_all_commands(cmd);
+//             return (g_es = 130, write(1,"\n",1), (void)0);
+//         }
+//     }
+// }
 
 static void handle_child_process(t_node *cmd, int prev_pipe, int pipefds[2], int i, int num_commands, t_env *env) {
     setup_child_process(cmd, prev_pipe, pipefds, i, num_commands);
@@ -123,39 +118,78 @@ static void wait_for_children(pid_t last_pid) {
         if (wpid == last_pid && WIFEXITED(status))
             g_es = WEXITSTATUS(status);
     }
+    if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+    {
+        return (write(1,"\n",1), (void)0);
+    }
 }
 
-static void handle_multiple_commands(t_node *cmd, t_env *env, int num_commands) {
+static void handle_multiple_commands(t_node *cmd, t_env *env, int num_commands)
+{
     int pipefds[2];
     pid_t pid;
     pid_t last_pid = -1;
     int i = 0;
     int prev_pipe = 0;
-
-    while (i < num_commands)
+    t_node *cmd2 = NULL;
+    while (cmd && i < num_commands)
     {
         create_pipe(pipefds);
+    if ((is_builtin(cmd)))
+    {
+        // if (cmd->file && ft_redirect(cmd->file) == -1)
+        //     return; 
+        // int ret = exec_builtins(cmd, env);
+        // free_env(env);
+        // free_all_commands(cmd);
+        // exit(ret);
+        handle_single_builtin(cmd,env);
+        // (void)ret;
+        if(cmd)
+        {
+            cmd2 = cmd->next;
+            free_redi_list(cmd->file);
+            free_split(cmd->cmd);
+            free(cmd);
+            cmd = cmd2;
+        }
+    }
+    else
+    {
+        signal(SIGINT, SIG_IGN);
         pid = fork();
         if (pid == 0)
+        {
             handle_child_process(cmd, prev_pipe, pipefds, i, num_commands, env);
+        }
         else if (pid > 0)
+        {
+        wait_for_children(last_pid);
+            signal_setup();
             handle_parent_process(&prev_pipe, pipefds, pid, &last_pid);
+            free_split(cmd->cmd);
+        }
         else
             perror("fork failed");
 
         i++;
-        cmd = cmd->next;
+        cmd2 = cmd->next;
+        free_redi_list(cmd->file);
+        free(cmd);
+        cmd = cmd2;
+    }
     }
     if (prev_pipe)
         close(prev_pipe);
-    wait_for_children(last_pid);
+    // signal_setup();
 }
 
-void pipe_hundel(t_node *cmd, t_env *env) {
+void pipe_hundel(t_node *cmd, t_env *env) 
+{
     int num_commands = get_num_commands(cmd);
-
-    if (num_commands == 1)
-        handle_single_command(cmd, env);
-    else
+    
+    // if (num_commands == 1)
+    //     handle_single_command(cmd, env);
+    // else
         handle_multiple_commands(cmd, env, num_commands);
 }

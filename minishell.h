@@ -160,5 +160,8 @@ void signal_setup();
 void free_split(char **split);
 void *ft_malloc(size_t size,char flag);
 int	is_all_whitespace(const char *str);
+void	g_handler(int sig);
+void free_heredoc(t_node *cmd, t_env *env, char *tmp);
+
 
 #endif

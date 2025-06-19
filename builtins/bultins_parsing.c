@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:59:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/17 21:12:41 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/18 20:58:37 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int init_export_info(char *arg, t_export *info,t_env *env)
     
     if (arg[0] == '=')
     {
-        printf("<----------------BUUUUUUUUUG--------------->\n");
         info->fg = 1;
         printf("%d\n",env->env_len);
         free(env->my_envp[env->env_len]);

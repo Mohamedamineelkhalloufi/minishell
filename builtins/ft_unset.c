@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 18:56:21 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/26 11:46:49 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/19 03:27:48 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static int get_key(const char *key, char **envp)
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], key, key_len) == 0 && envp[i][key_len] == '=')
+        {
+            printf(">>>>>> %d\n",i);
 			return (i);
+        }
 		i++;
 	}
 	return (-1);
@@ -34,11 +37,13 @@ int ft_unset(t_node *cmd, t_env **env)
     int idx;
     
     i = 1;
+
     if (!cmd || !cmd->cmd || !cmd->cmd[1])
         return (-1);
     while (cmd->cmd[i])
     {
         idx = get_key(cmd->cmd[i], (*env)->my_envp);
+        printf(">>>>>> %s\n",(*env)->my_envp[2]);
         if (idx > -1)
         {
             free((*env)->my_envp[idx]);

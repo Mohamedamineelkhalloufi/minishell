@@ -6,7 +6,7 @@
 /*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:07 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/17 22:24:44 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/19 00:54:17 by mohel-kh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,10 @@ void free_all_commands(t_node *head) {
         tmp = head;
         if (head->cmd)
         {
-            // printf("head == %p\n", *head->cmd );
             free_split(head->cmd);
         }
         if (head->file)
             free_redi_list(head->file);
-        // if (head->echo_info)
-        //     free_echo_info(head->echo_info);
-        // if (head->info)
-        //     free(head->info);
         head = head->next;
         free(tmp);
     }
@@ -45,10 +40,10 @@ int main(int ac,char **av,char **envp)
     (void)ac;
     (void)av;
     char *line;
-    signal_setup();
     t_env *env;
 
     env = NULL;
+    signal_setup();
     while (1)
     {
         t_node *head = NULL;
@@ -65,8 +60,11 @@ int main(int ac,char **av,char **envp)
         add_history(line);
         ft_all(&head ,line ,NULL ,env);
         if(head)
+        {
+            free_heredoc(head, env,NULL);
             pipe_hundel(head, env);
-        free_all_commands(head);
+        }
+        // free_all_commands(head);
     }
     clear_history();
 }
