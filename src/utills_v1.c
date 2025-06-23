@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utills_v1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 11:58:23 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/19 03:20:47 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:48:44 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int builtin_requires_parent(t_node *cmd)
     if (!cmd || !cmd->cmd || !cmd->cmd[0])
         return 0;
 
-    const char *parent_builtins[] = {"cd", "export", "unset", "exit", "pwd", NULL};
+    const char *parent_builtins[] = {"cd", "export", "unset", "exit", NULL};
 	i = 0;
     while (parent_builtins[i])
 	{

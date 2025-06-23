@@ -3,6 +3,7 @@
 # define MINISHELL_H
 
 #include <readline/readline.h>
+#include <sys/stat.h>
 #include <readline/history.h>
 #include <stdio.h>
 #include "libft/libft.h"
@@ -125,7 +126,7 @@ char	*handle_dollar_case(char *start);
 void	error_exit(const char *msg); // display error msg asd exit
 char	*resolve_path(char *command, char **envp); //search for internal command (ls, cat, etc..)in envp(PATH) 
 void    pipe_hundel(t_node *cmd,t_env *env); // handel one command and multi command like (ls -l) and (ls -l | grep "a" | wc -l) by using fork, pipe and ..etc!
-int	    ft_redirect(t_redi *redir); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
+int	    ft_redirect(t_redi *redir, t_env *env); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
 int		get_num_commands(t_node *cmd); // count of nodes cause any node has one commnde
 char    *get_env_value(const char *key, char **envp);
 void    ft_sort(t_env *cmd);
@@ -139,6 +140,8 @@ int ft_exit(t_node *cmd);
 int ft_export(t_node *cmd,t_env **env);
 int ft_pwd(t_node *cmd);
 int ft_unset(t_node *cmd,t_env **env);
+int get_key(const char *key, char **envp);
+int get_first_index_of_value(const char *key, char **envp);
 //helper :
 int	is_builtin(t_node *cmd);
 int exec_builtins(t_node *cmd,t_env *env);
@@ -162,6 +165,22 @@ void *ft_malloc(size_t size,char flag);
 int	is_all_whitespace(const char *str);
 void	g_handler(int sig);
 void free_heredoc(t_node *cmd, t_env *env, char *tmp);
+
+/* export utills */
+
+int add_new_env(t_export *info, t_env **env);
+int update_existing_env(t_export *info, t_env **env, int index);
+char *handle_value_update(t_export *info, char *old_value);
+char *create_env_string(char *key, char *value);
+
+/*  cd utills  */
+int update_env_variable(const char *key, const char *value, char **envp);
+int update_pwd_variables(char *oldpwd, char *pwd, t_env *env);
+int change_directory(const char *target_dir, t_env *env);
+char *expand_line1(char *line, char *plus, t_env *info);
+
+
+int ft_heredoc(t_redi *redier,t_env *env);
 
 
 #endif

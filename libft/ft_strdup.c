@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 18:03:19 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/05/26 12:03:57 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/20 15:31:52 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *s1)
 	char	*dup;
 
 	c = 0;
+	if (!s1)
+		return (NULL);
 	while (s1[c] != '\0')
 		c++;
 	dup = (char *)malloc(c * sizeof(char) + 1);

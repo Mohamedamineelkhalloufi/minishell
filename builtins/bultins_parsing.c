@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bultins_parsing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:59:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/18 20:58:37 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:39:14 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int join_args(t_node *cmd)
 {
     int i;
     char *str;
-    // char *tmp;
     char *new_str;
     
     str = ft_strdup("");
@@ -80,15 +79,10 @@ int init_export_info(char *arg, t_export *info,t_env *env)
     info->value = NULL;
     info->append = 0;
     info->fg = 0;
+    (void)env;
     
     if (arg[0] == '=')
-    {
         info->fg = 1;
-        printf("%d\n",env->env_len);
-        free(env->my_envp[env->env_len]);
-        env->env_len--;
-        printf("%d\n",env->env_len);
-    }
     else
     {
         split = ft_split_a(arg, "=");
@@ -98,30 +92,25 @@ int init_export_info(char *arg, t_export *info,t_env *env)
         value_part = split[1];
         if (!key_part)
             return (free_split(split), -1);
-    
         key_len = ft_strlen(key_part);
         if (key_len > 0 && key_part[key_len - 1] == '+')
         {
             info->append = 1;
             key_part[key_len - 1] = '\0';
         }
-    
         info->key = ft_strdup(key_part);
         if (!info->key)
             return (free_split(split), -1);
-    
         if (!value_part)
             info->value = ft_strdup("");
         else
             info->value = ft_strdup(value_part);
-        
         if (!info->value)
         {
             free(info->key);
             info->key = NULL;
             return (free_split(split), -1);
         }
-    
         free_split(split);
     }
     return (0);
@@ -131,7 +120,7 @@ int valide_key(t_export *info)
 {
     if (info->fg == 1)
     {
-        dprintf(2,"not a valid identifier\n");
+        ft_putendl_fd("not a valid identifier\n",2);
         return(-1);
     }
     if(!info->key)
@@ -141,11 +130,11 @@ int valide_key(t_export *info)
     {
         if (info->key[key_len - 1] == ' ')
         {
-            dprintf(2,"not a valid identifier\n");
+            ft_putendl_fd("not a valid identifier\n",2);
             return (-1);
         }
         return (0);
     }
-    dprintf(2,"not a valid identifier\n");
+    ft_putendl_fd("not a valid identifier\n",2);
     return (-1);
 }

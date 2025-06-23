@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utills_v2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:26:56 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/17 22:21:42 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/21 02:32:54 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ int	is_all_whitespace(const char *str)
 	while (str[i])
 	{
 		if (str[i] != ' ' && str[i] != '\t')
-			return (0); // Found a non-whitespace character
+			return (0);
 		i++;
 	}
-	return (1); // All whitespace or empty
+	return (ft_putendl_fd("command mot found",2),1);
 }

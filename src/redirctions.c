@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirctions.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:30 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/19 00:57:19 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:35:03 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,12 @@ static int ft_append(t_redi *redier)
     return 0;
 }
 
-int ft_heredoc(t_redi *redier)
+int ft_heredoc(t_redi *redier,t_env *env)
 {
     char    *line;
     static int count = 0;
     char *tmp;
+    char *temp;
     char *id;
     int     fd;
 
@@ -90,16 +91,21 @@ int ft_heredoc(t_redi *redier)
     while (1)
     {
         line = readline("heredoc > ");
+        temp = expand_line1(line, "", env);
         if (!line)
             break;
         if (ft_strcmp(redier->file_num, line) == 0)
         {
+            free(temp);
+            temp = NULL;
             free(line);
             break;
         }
-        write(fd, line, ft_strlen(line));
+        write(fd, temp, ft_strlen(temp));
         write(fd, "\n", 1);
         free(line);
+        free(temp);
+        temp = NULL;
     }
     close(fd);
     redier->heredoc_file = strdup(tmp);
@@ -108,7 +114,7 @@ int ft_heredoc(t_redi *redier)
 }
 
 
-int ft_redirect(t_redi *redir)
+int ft_redirect(t_redi *redir,t_env *env)
 {
     int res = 0;
     t_redi *last_heredoc = NULL;
@@ -118,7 +124,7 @@ int ft_redirect(t_redi *redir)
     {
         if (tmp->type == 3)
         {
-            res = ft_heredoc(tmp);
+            res = ft_heredoc(tmp,env);
             if (res == -1)
                 return -1;
             last_heredoc = tmp;
@@ -146,6 +152,7 @@ int ft_redirect(t_redi *redir)
             close(fd);
             return -1;
         }
+        unlink(last_heredoc->heredoc_file);
         close(fd);
     }
     return res;

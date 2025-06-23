@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/18 10:01:46 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:34:44 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,30 @@ char *expand_line(char *line, int dquote, char *plus, t_env *info)
         line_plus = ft_substr(line, 0, i);
         temp_plus = ft_strjoin1(plus, line_plus);
         // free(plus);
+        free(line_plus);
+        plus = temp_plus;
+        if (line[i] == '$')
+        {
+            line += i;
+            i = handle_dollar(&plus, line, info);
+        }
+        line += i;
+    }
+    return (plus);
+}
+char *expand_line1(char *line, char *plus, t_env *info)
+{
+    int i;
+    char *line_plus;
+    char *temp_plus;
+    
+    while (line && *line)
+    {
+        i = 0;
+        while (line[i] && line[i] != '$')
+            i++;
+        line_plus = ft_substr(line, 0, i);
+        temp_plus = ft_strjoin(plus, line_plus);
         free(line_plus);
         plus = temp_plus;
         if (line[i] == '$')
