@@ -48,7 +48,7 @@ int change_directory(const char *target_dir, t_env *env)
 		if (target_dir)
 		{
 			if(ft_strcmp(target_dir ,""))
-        	    dprintf(2,"cd: %s: No such file or directory\n", target_dir);
+        	    ft_putendl_fd("cd: No such file or directory",2);
 		}
         free(oldpwd);
         return (1);

@@ -47,7 +47,7 @@ void	g_handler(int sig)
 	if (sig == SIGINT)
 	{
 		g_es = 130;
-		write(1, "\n", 1);
+		// write(1, "\n", 1);
 		free_heredoc(NULL, NULL, NULL);
 	}
 	exit(g_es); 

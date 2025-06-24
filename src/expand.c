@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/20 18:34:44 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:01:17 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,16 +135,3 @@ char	*expand_val(char *s, t_env *info)
 	return (ft_strdup(""));
 }	
 
-char	*find_end(char *start)
-{
-	int	i;
-
-	i = 1;
-	if (start[i] && start[i] == '?')
-		return (ft_substr(start + 1, 0, i));
-	if (start[i] && ft_isdigit(start[i]))
-		return (ft_substr(start + 1, 0, i));
-	while (start[i] && ft_isalnum(start[i]))
-		i++;
-	return (ft_substr(start + 1, 0, i - 1));
-}

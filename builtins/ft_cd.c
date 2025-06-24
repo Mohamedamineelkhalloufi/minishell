@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:35:34 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/20 16:37:59 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/24 05:52:18 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static char *get_target_directory(char **cmd_args, char **envp)
 
 int ft_cd(t_node *cmd, t_env *env)
 {
-    printf(">>>>>>>>>>>>>>\n");
     char *target_dir;
     int result;
     

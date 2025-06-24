@@ -8,7 +8,8 @@ SRC = src/signal.c src/main.c src/lexer.c src/parser.c src/syntax_error.c src/ex
 	src/handel_pipe.c src/utills_v2.c src/utills_v1.c src/utills_v0.c src/redirctions.c \
 	builtins/ft_unset.c builtins/bultins_parsing.c builtins/ft_cd.c builtins/ft_echo.c \
 	builtins/ft_env.c builtins/ft_exit.c builtins/ft_export.c builtins/ft_pwd.c \
-	builtins/cd_utills.c builtins/export_utils.c
+	builtins/cd_utills.c builtins/export_utils.c src/utills_v3.c src/utills_v4.c \
+	src/utills_v5.c
 
 LIBFT = libft/libft.a
 

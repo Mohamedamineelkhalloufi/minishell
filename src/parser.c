@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:14 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/18 20:33:24 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:02:57 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int process_cmd(t_node *new_node, char **cmd)
         {
             processed_str = qoute_remov(cmd[i], 0, 0, 0);
             if (!processed_str)
-                return (printf("ERROR -1\n"),-1);
+                return (ft_putendl_fd("ERROR -1",2),-1);
             new_node->cmd[l++] = processed_str;
             i++;
         }
@@ -108,64 +108,4 @@ void	add_redi_to_list(t_redi *head, t_redi *new_redi)
 	while (stor_head->next)
 		stor_head = stor_head->next;
 	stor_head->next = new_redi;
-}
-// void free_redi(t_redi *redi)
-// {
-//     if (!redi)
-//         return;
-//     if (redi->file_num)
-//         free(redi->file_num);
-//     free(redi);
-// }
-
-// void free_redi_list(t_redi *head)
-// {
-//     t_redi *current;
-//     t_redi *next;
-    
-//     current = head;
-//     while (current)
-//     {
-//         next = current->next;
-//         free_redi(current);
-//         current = next;
-//     }
-// }
-
-void free_redi_list(t_redi *r)
-{
-    t_redi *tmp;
-    while (r)
-    {
-        tmp = r;
-        if (r->file_num)
-            free(r->file_num);
-        if (r->heredoc_file)
-            free(r->heredoc_file);
-        r = r->next;
-        free(tmp);
-    }
-}
-void free_node(t_node *node)
-{
-    int i;
-    
-    if (!node)
-        return;
-    if (node->cmd)
-    {
-        i = 0;
-        while (node->cmd[i])
-        {
-            free(node->cmd[i]);
-            i++;
-        }
-        free(node->cmd);
-    }
-    // if (node->file)
-    //     free_redi_list(node->file);
-    // if (node->echo_info)
-    //     free_echo_info(node->echo_info);
-    
-    free(node);
 }

@@ -124,7 +124,7 @@ char	*handle_dollar_case(char *start);
 /*--------------------------------------------_exct_ft_--------------------------------------*/
 
 void	error_exit(const char *msg); // display error msg asd exit
-char	*resolve_path(char *command, char **envp); //search for internal command (ls, cat, etc..)in envp(PATH) 
+char	*resolve_path(char *command, char **envp,int i); //search for internal command (ls, cat, etc..)in envp(PATH) 
 void    pipe_hundel(t_node *cmd,t_env *env); // handel one command and multi command like (ls -l) and (ls -l | grep "a" | wc -l) by using fork, pipe and ..etc!
 int	    ft_redirect(t_redi *redir, t_env *env); // handel reirectins (<, >, <<, >>) like (ls -l >> test.txt| wc -l) by using dup2, pipe, open and ..etc!
 int		get_num_commands(t_node *cmd); // count of nodes cause any node has one commnde
@@ -136,7 +136,7 @@ void    ft_sort(t_env *cmd);
 int ft_cd(t_node *cmd,t_env *env);
 int	ft_echo(t_node *cmd);
 int ft_env(t_env *cmd);
-int ft_exit(t_node *cmd);
+int ft_exit(t_node *cmd,t_env *env);
 int ft_export(t_node *cmd,t_env **env);
 int ft_pwd(t_node *cmd);
 int ft_unset(t_node *cmd,t_env **env);
@@ -181,6 +181,15 @@ char *expand_line1(char *line, char *plus, t_env *info);
 
 
 int ft_heredoc(t_redi *redier,t_env *env);
+
+void handle_single_builtin(t_node *cmd, t_env *env);
+int has_heredoc(t_redi *r);
+void create_pipe(int pipefds[2]);
+void execute_command(t_node *cmd, t_env *env);
+void setup_child_process(t_node *cmd, int prev_pipe, int pipefds[2], int i, int num_commands);
+char	*find_end(char *start);
+void free_redi_list(t_redi *r);
+void free_node(t_node *node);
 
 
 #endif

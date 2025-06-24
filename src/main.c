@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:07 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/21 01:49:08 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/24 05:16:48 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int g_es = 0;
 
-void free_all_commands(t_node *head) {
+void free_all_commands(t_node *head)
+{
     t_node *tmp;
+
     while (head) 
     {
         tmp = head;
         if (head->cmd)
-        {
             free_split(head->cmd);
-        }
         if (head->file)
             free_redi_list(head->file);
         head = head->next;
@@ -64,7 +64,6 @@ int main(int ac,char **av,char **envp)
             free_heredoc(head, env,NULL);
             pipe_hundel(head, env);
         }
-        // free_all_commands(head);
     }
     clear_history();
 }

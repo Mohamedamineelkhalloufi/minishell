@@ -19,7 +19,7 @@ int ft_pwd(t_node *cmd)
     (void)cmd;
     pwd = getcwd(NULL, 0);
     if (!pwd)
-        return (dprintf(2,"getcwd error\n"),-1);
+        return (ft_putendl_fd("getcwd error",2),-1);
     ft_putendl_fd(pwd, 1);
     free(pwd);
     return (0);
