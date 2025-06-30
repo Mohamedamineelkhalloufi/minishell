@@ -12,15 +12,15 @@
 
 #include "../minishell.h"
 
-int ft_pwd(t_node *cmd)
+int	ft_pwd(t_node *cmd)
 {
-    char *pwd;
-    
-    (void)cmd;
-    pwd = getcwd(NULL, 0);
-    if (!pwd)
-        return (ft_putendl_fd("getcwd error",2),-1);
-    ft_putendl_fd(pwd, 1);
-    free(pwd);
-    return (0);
+	char	*pwd;
+
+	(void)cmd;
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (ft_putendl_fd("getcwd error", 2), -1);
+	ft_putendl_fd(pwd, 1);
+	free(pwd);
+	return (0);
 }

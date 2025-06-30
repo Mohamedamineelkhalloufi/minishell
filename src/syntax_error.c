@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohel-kh <mohel-kh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:37 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/17 21:56:44 by mohel-kh         ###   ########.fr       */
+/*   Updated: 2025/06/30 02:10:13 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// had lft tatchof lina dak line wash fih << >> < > bash nsplitiw bih
 int	check_split(char *line, int i, char q)
 {
 	while (line[i])
@@ -42,7 +41,6 @@ int	check_split(char *line, int i, char q)
 	return (0);
 }
 
-// had lft tatchof lina wash line fih chi " oula ' mamsdodch
 int	d_quote(char *line, int dquote, int quote, int i)
 {
 	char	q;
@@ -71,8 +69,6 @@ int	d_quote(char *line, int dquote, int quote, int i)
 		return (0);
 	return (1);
 }
-
-// had lft tatchof lina wash line tibda oula tisali b | oula fih joj dyal | mtab3in
 
 int	check_pipe(char *line)
 {
@@ -126,7 +122,7 @@ int	if_check_pipe(char *line, int i, char q)
 
 char	*qoute_remov(char *line, char q, int i, int l)
 {
-	char *new_line;
+	char	*new_line;
 
 	new_line = malloc(sizeof(char) * (ft_strlen(line) + 1));
 	while (line[i])

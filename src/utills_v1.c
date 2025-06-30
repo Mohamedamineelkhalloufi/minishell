@@ -12,18 +12,19 @@
 
 #include "../minishell.h"
 
-t_env *envp_dup(char **envp)
+t_env	*envp_dup(char **envp)
 {
-	int i;
-	int env_len;
+	int		i;
+	int		env_len;
+	t_env	*cmd;
 
 	env_len = 0;
-	 t_env *cmd = malloc(sizeof(t_env));
+	cmd = malloc(sizeof(t_env));
 	while (envp[env_len])
 		env_len++;
 	cmd->my_envp = (char **)malloc((env_len + 1) * sizeof(char *));
 	if (!cmd->my_envp)
-		return(NULL);
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{
@@ -32,17 +33,18 @@ t_env *envp_dup(char **envp)
 	}
 	cmd->my_envp[i] = NULL;
 	cmd->env_len = env_len;
-	
 	return (cmd);
 }
 
-char **realloc_env(char **old_env, int old_size, int new_size)
+char	**realloc_env(char **old_env, int old_size, int new_size)
 {
-	char **new_env = malloc((new_size + 1) * sizeof(char *));
-	int i = 0;
+	char	**new_env;
+	int		i;
 
+	new_env = malloc((new_size + 1) * sizeof(char *));
+	i = 0;
 	if (!new_env)
-		return NULL;
+		return (NULL);
 	while (i < old_size)
 	{
 		new_env[i] = ft_strdup(old_env[i]);
@@ -54,12 +56,13 @@ char **realloc_env(char **old_env, int old_size, int new_size)
 	return (new_env);
 }
 
-
-char *get_env_value(const char *key, char **envp)
+char	*get_env_value(const char *key, char **envp)
 {
-	int		i = 0;
-	size_t	key_len = ft_strlen(key);
+	int		i;
+	size_t	key_len;
 
+	i = 0;
+	key_len = ft_strlen(key);
 	while (envp[i])
 	{
 		if (ft_strncmp(envp[i], key, key_len) == 0 && envp[i][key_len] == '=')
@@ -69,21 +72,22 @@ char *get_env_value(const char *key, char **envp)
 	return (NULL);
 }
 
-void error_exit(const char *msg)
+void	error_exit(const char *msg)
 {
-    perror(msg);
-    exit(-1);
+	perror(msg);
+	exit(-1);
 }
 
-char *resolve_path(char *command, char **envp, int i)
-{ 
+char	*resolve_path(char *command, char **envp, int i)
+{
 	char	*path_env;
 	char	**paths;
 	char	*full_path;
+	char	*temp;
 
-	if(access(command,X_OK|F_OK) != -1)
+	if (access(command, X_OK | F_OK) != -1)
 		return (command);
-	path_env = get_env_value("PATH",envp);
+	path_env = get_env_value("PATH", envp);
 	if (!path_env)
 		return (NULL);
 	paths = ft_split(path_env, ':');
@@ -92,11 +96,11 @@ char *resolve_path(char *command, char **envp, int i)
 		return (NULL);
 	while (paths[i])
 	{
-		char *temp = ft_strjoin(paths[i], "/");
+		temp = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(temp, command);
 		free(temp);
 		if (access(full_path, X_OK) == 0)
-			return (free_split(paths),full_path);
+			return (free_split(paths), full_path);
 		free(full_path);
 		i++;
 	}

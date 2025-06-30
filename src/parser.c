@@ -6,12 +6,11 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:14 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/23 18:02:57 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/30 01:54:00 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 {
@@ -23,8 +22,8 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	new_node = init_node(num_cmd);
 	if (!new_node)
 		return (NULL);
-	if (process_cmd(new_node, cmd) != 0)
-		return (free_node(new_node),NULL);
+	if (process_cmd(new_node, cmd, 0, 0) != 0)
+		return (free_node(new_node), NULL);
 	if (!head)
 		return (new_node);
 	tmp = head;
@@ -34,37 +33,32 @@ t_node	*creat_node(t_node *head, char **cmd, int num_cmd)
 	return (head);
 }
 
-int process_cmd(t_node *new_node, char **cmd)
+int	process_cmd(t_node *new_node, char **cmd, int i, int l)
 {
-    int i;
-    int l;
-    char *processed_str;
-    
-    i = 0;
-    l = 0;
-    while (cmd[i])
-    {
-        if (ft_strchr("<>", cmd[i][0]) && cmd[i + 1])
-        {
-            processed_str = qoute_remov(cmd[i + 1], 0, 0, 0);
-            if (!processed_str)
-                return (-1);
-            new_node->file = creat_file(new_node->file, processed_str, cmd[i]);
-            i += 2;
-        }
-        else
-        {
-            processed_str = qoute_remov(cmd[i], 0, 0, 0);
-            if (!processed_str)
-                return (ft_putendl_fd("ERROR -1",2),-1);
-            new_node->cmd[l++] = processed_str;
-            i++;
-        }
-    }
-    new_node->cmd[l] = NULL;
-    return (0);
-}
+	char	*processed_str;
 
+	while (cmd[i])
+	{
+		if (ft_strchr("<>", cmd[i][0]) && cmd[i + 1])
+		{
+			processed_str = qoute_remov(cmd[i + 1], 0, 0, 0);
+			if (!processed_str)
+				return (-1);
+			new_node->file = creat_file(new_node->file, processed_str, cmd[i]);
+			i += 2;
+		}
+		else
+		{
+			processed_str = qoute_remov(cmd[i], 0, 0, 0);
+			if (!processed_str)
+				return (ft_putendl_fd("ERROR -1", 2), -1);
+			new_node->cmd[l++] = processed_str;
+			i++;
+		}
+	}
+	new_node->cmd[l] = NULL;
+	return (0);
+}
 
 t_redi	*creat_file(t_redi *head, char *file_num, char *check)
 {
@@ -74,10 +68,10 @@ t_redi	*creat_file(t_redi *head, char *file_num, char *check)
 		return (NULL);
 	new_redi = malloc(sizeof(t_redi));
 	if (!new_redi)
-		return (free(file_num),NULL);
+		return (free(file_num), NULL);
 	set_redi_type(new_redi, check);
 	new_redi->file_num = file_num;
-    new_redi->heredoc_file = NULL;
+	new_redi->heredoc_file = NULL;
 	new_redi->next = NULL;
 	if (!head)
 		return (new_redi);

@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:00 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/19 18:38:14 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:11:58 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 {
-	char *new_line;
-	int	cmd_num;
+	char	*new_line;
+	int		cmd_num;
 
 	cmd_num = 0;
 	new_line = fix_line(s_line);
@@ -30,7 +30,7 @@ int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 	else
 	{
 		cmd_num = num_cmd(p_line);
-		*all_cmd = creat_node(*all_cmd, p_line, cmd_num); //return command mallocad!!
+		*all_cmd = creat_node(*all_cmd, p_line, cmd_num);
 		free_split(p_line);
 	}
 	return (1);
@@ -70,15 +70,15 @@ int	check_redirections(char **p_line)
 	{
 		if (ft_strchr("<>", p_line[i][0]))
 		{
-			if (p_line[i][1] && ft_strchr("<>", p_line[i][1]))
+			if (p_line[i + 1] && ft_strchr("<>", p_line[i + 1][0]))
+				return (0);
+			else if (p_line[i][1] && ft_strchr("<>", p_line[i][1]))
 			{
 				if (p_line[i][1] != p_line[i][0])
 					return (0);
 				else if (p_line[i][2])
 					return (0);
 			}
-			else if (p_line[i + 1] && ft_strchr("<>", p_line[i + 1][0]))
-				return (0);
 		}
 		i++;
 	}

@@ -6,61 +6,60 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:45 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/23 18:01:17 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:11:49 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *expand_line(char *line, int dquote, char *plus, t_env *info)
+char	*expand_line(char *line, int dquote, char *plus, t_env *info)
 {
-    int i;
-    char *line_plus;
-    char *temp_plus;
-    
-    while (line && *line)
-    {
-        i = 0;
-        while (line[i] && line[i] != '$')
-            i = skip_quotes(line, i, &dquote);
-            
-        line_plus = ft_substr(line, 0, i);
-        temp_plus = ft_strjoin1(plus, line_plus);
-        // free(plus);
-        free(line_plus);
-        plus = temp_plus;
-        if (line[i] == '$')
-        {
-            line += i;
-            i = handle_dollar(&plus, line, info);
-        }
-        line += i;
-    }
-    return (plus);
+	int		i;
+	char	*line_plus;
+	char	*temp_plus;
+
+	while (line && *line)
+	{
+		i = 0;
+		while (line[i] && line[i] != '$')
+			i = skip_quotes(line, i, &dquote);
+		line_plus = ft_substr(line, 0, i);
+		temp_plus = ft_strjoin1(plus, line_plus);
+		free(line_plus);
+		plus = temp_plus;
+		if (line[i] == '$')
+		{
+			line += i;
+			i = handle_dollar(&plus, line, info);
+		}
+		line += i;
+	}
+	return (plus);
 }
-char *expand_line1(char *line, char *plus, t_env *info)
+
+char	*expand_line1(char *line, char *plus, t_env *info)
 {
-    int i;
-    char *line_plus;
-    char *temp_plus;
-    
-    while (line && *line)
-    {
-        i = 0;
-        while (line[i] && line[i] != '$')
-            i++;
-        line_plus = ft_substr(line, 0, i);
-        temp_plus = ft_strjoin(plus, line_plus);
-        free(line_plus);
-        plus = temp_plus;
-        if (line[i] == '$')
-        {
-            line += i;
-            i = handle_dollar(&plus, line, info);
-        }
-        line += i;
-    }
-    return (plus);
+	int		i;
+	char	*line_plus;
+	char	*temp_plus;
+
+	while (line && *line)
+	{
+		i = 0;
+		while (line[i] && line[i] != '$')
+			i++;
+		line_plus = ft_substr(line, 0, i);
+		temp_plus = ft_strjoin(plus, line_plus);
+		free(line_plus);
+		plus = temp_plus;
+		if (line[i] == '$')
+		{
+			line += i;
+			i = handle_dollar(&plus, line, info);
+		}
+		line += i;
+	}
+	return (plus);
 }
 
 int	skip_quotes(char *line, int i, int *dquote)
@@ -92,7 +91,7 @@ int	handle_dollar(char **plus, char *line, t_env *info)
 	exp = expand_val(line, info);
 	*plus = ft_strjoin1(*plus, exp);
 	if (line[i] && (line[i] == '?' || ft_isdigit(line[i])))
-	i++;
+		i++;
 	else if (line[i] == '$')
 	{
 		while (line[i] == '$')
@@ -102,7 +101,7 @@ int	handle_dollar(char **plus, char *line, t_env *info)
 	else
 	{
 		while (line[i] && ft_isalnum(line[i]))
-		i++;
+			i++;
 	}
 	free(exp);
 	return (i);
@@ -133,5 +132,4 @@ char	*expand_val(char *s, t_env *info)
 	if (start[1] && !ft_isalnum(start[1]))
 		return (ft_strdup("$"));
 	return (ft_strdup(""));
-}	
-
+}

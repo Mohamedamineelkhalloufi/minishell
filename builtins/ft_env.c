@@ -6,22 +6,22 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 19:21:48 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/05/14 17:24:12 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/29 09:04:22 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_env(t_env *cmd)
+int	ft_env(t_env *cmd)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (cmd->my_envp[i])
-    {
-        if (strchr(cmd->my_envp[i], '='))
-            printf("%s\n",cmd->my_envp[i]);
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (cmd->my_envp[i])
+	{
+		if (strchr(cmd->my_envp[i], '='))
+			printf("%s\n", cmd->my_envp[i]);
+		i++;
+	}
+	return (0);
 }

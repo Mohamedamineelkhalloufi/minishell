@@ -6,12 +6,11 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 17:26:56 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/21 02:32:54 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:26:27 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 static size_t	ft_countword(char const *s, char const *delimiter)
 {
@@ -34,42 +33,61 @@ static size_t	ft_countword(char const *s, char const *delimiter)
 	return (count);
 }
 
+static char	*get_next_token(char const **s_ptr, char const *delimiter,
+		size_t delim_len)
+{
+	char	*next_delim;
+	size_t	len;
+	char	*token;
+
+	while (**s_ptr && ft_strncmp(*s_ptr, delimiter, delim_len) == 0)
+		*s_ptr += delim_len;
+	if (!**s_ptr)
+		return (NULL);
+	next_delim = ft_strnstr(*s_ptr, delimiter, ft_strlen(*s_ptr));
+	if (next_delim == NULL)
+		len = ft_strlen(*s_ptr);
+	else
+		len = (size_t)(next_delim - *s_ptr);
+	token = ft_substr(*s_ptr, 0, len);
+	if (next_delim)
+		*s_ptr = next_delim;
+	else
+		*s_ptr += len;
+	return (token);
+}
+
 char	**ft_split_a(char const *s, char const *delimiter)
 {
 	char	**lst;
-	size_t	word_len;
-	size_t	delimiter_len;
+	size_t	delim_len;
 	int		i;
+	int		word_count;
+	char	*token;
 
 	if (!s || !delimiter)
 		return (NULL);
-	delimiter_len = ft_strlen(delimiter);
-	lst = (char **)malloc((ft_countword(s, delimiter) + 1) * sizeof(char *));
+	delim_len = ft_strlen(delimiter);
+	word_count = ft_countword(s, delimiter);
+	lst = (char **)malloc((word_count + 1) * sizeof(char *));
 	if (!lst)
 		return (NULL);
 	i = 0;
-	while (*s)
+	while (i < word_count)
 	{
-		while (*s && ft_strncmp(s, delimiter, delimiter_len) == 0)
-			s += delimiter_len;
-		if (*s)
-		{
-			char *next_delim = ft_strnstr(s, delimiter, ft_strlen(s));
-			if (!next_delim)
-				word_len = ft_strlen(s);
-			else
-				word_len = next_delim - s;
-			lst[i++] = ft_substr(s, 0, word_len);
-			s += word_len;
-		}
+		token = get_next_token(&s, delimiter, delim_len);
+		lst[i] = token;
+		i++;
 	}
 	lst[i] = NULL;
 	return (lst);
 }
+
 void	free_split(char **split)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (!split)
 		return ;
 	while (split[i])
@@ -80,42 +98,16 @@ void	free_split(char **split)
 	free(split);
 }
 
-void *ft_malloc(size_t size, char flag)
-{
-	static t_list *head;
-	void *set;
-
-	set = NULL;
-	if (flag == 'A')
-	{
-		set = malloc(size);
-		if (!set)
-			return (NULL);
-		ft_lstadd_back(&head, ft_lstnew(set));
-	}
-	else
-	{
-		t_list *tmp;
-		while (head)
-		{
-			tmp = head->next;
-			free(head->content);
-			free(head);
-			head = tmp;
-		}
-	}
-	return set;
-}
-
 int	is_all_whitespace(const char *str)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] != ' ' && str[i] != '\t')
 			return (0);
 		i++;
 	}
-	return (ft_putendl_fd("command mot found",2),1);
+	return (ft_putendl_fd("command mot found", 2), 1);
 }
