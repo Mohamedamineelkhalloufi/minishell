@@ -6,13 +6,13 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:34:52 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/28 23:10:05 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:25:50 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_all(t_node **all_cmd, char *line, char **s_line, t_env *info)
+int	ft_all(t_node **all_cmd, char *line, char **s_line, t_env *info)
 {
 	char	*plus;
 	int		i;
@@ -23,21 +23,20 @@ void	ft_all(t_node **all_cmd, char *line, char **s_line, t_env *info)
 	{
 		g_es = 2;
 		ft_putendl_fd("Dash@Ameed: syntax error near unexpected", 2);
+		return (1);
 	}
 	else
 	{
-		plus = expand_line(line, 0, ft_strdup(""), info);
-		if (plus)
-		{
-			s_line = ft_split(plus, '|');
-			free(plus);
-		}
+		s_line = expand_and_split(line, info);
+		if (!s_line)
+			return (1);
 		while (s_line[i])
 		{
 			if (!lexer(all_cmd, s_line[i++], NULL))
-				break ;
+				return (free_all_commands(*all_cmd), free_split(s_line), 1);
 		}
 		free_split(s_line);
+		return (0);
 	}
 }
 

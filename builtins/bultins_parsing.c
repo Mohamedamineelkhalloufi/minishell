@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:59:29 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/30 00:01:23 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:57:26 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	valide_key(t_export *info)
 
 	if (info->fg == 1)
 	{
-		ft_putendl_fd("not a valid identifier\n", 2);
+		ft_putendl_fd("not a valid identifier", 2);
 		return (-1);
 	}
 	if (!info->key)
@@ -110,11 +110,11 @@ int	valide_key(t_export *info)
 	{
 		if (info->key[key_len - 1] == ' ')
 		{
-			ft_putendl_fd("not a valid identifier\n", 2);
+			ft_putendl_fd("not a valid identifier", 2);
 			return (-1);
 		}
 		return (0);
 	}
-	ft_putendl_fd("not a valid identifier\n", 2);
+	ft_putendl_fd("not a valid identifier", 2);
 	return (-1);
 }

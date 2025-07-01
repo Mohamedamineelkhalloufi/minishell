@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:20:30 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/28 11:18:31 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:45:24 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ int	ft_heredoc(t_redi *redi, t_env *env)
 	int			fd;
 	char		*tmp;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGINT, g_handler);
 	if (open_heredoc_file(&tmp, &fd, count++) == -1)
 		return (-1);
 	if (write_heredoc_loop(redi, env, fd) == -1)

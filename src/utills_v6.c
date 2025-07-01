@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 00:11:46 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/30 00:23:33 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:40:27 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handle_command_not_found(t_node *cmd, t_env *env)
 
 void	handle_execve_failure(t_node *cmd, t_env *env)
 {
-	ft_putendl_fd("execve error\n", 2);
+	ft_putendl_fd("command not found!!", 2);
 	free_all_commands(cmd);
 	free_env(env);
 	exit(2);

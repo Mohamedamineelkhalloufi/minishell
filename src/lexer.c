@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:39:00 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/28 11:11:58 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:25:38 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	lexer(t_node **all_cmd, char *s_line, char **p_line)
 	if (check_redirections(p_line) == 0)
 	{
 		free_split(p_line);
+		g_es = 2;
 		ft_putendl_fd("Dash@Ameed: syntax error near unexpected", 2);
 		return (0);
 	}

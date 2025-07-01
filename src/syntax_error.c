@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:38:37 by mohel-kh          #+#    #+#             */
-/*   Updated: 2025/06/30 02:10:13 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:59:10 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,9 @@ int	if_check_pipe(char *line, int i, char q)
 		else if (line[i] == '|')
 		{
 			i++;
-			if (line[i] && line[i] == '|')
+			i = is_pipe_syntax_error(line, i);
+			if (i == -1)
 				return (-1);
-			while (line[i] && line[i] == ' ')
-			{
-				i++;
-				if (line[i] && line[i] == '|')
-					return (-1);
-			}
 		}
 		else
 			i++;

@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 11:16:24 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/30 11:17:04 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:19:13 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char				*get_env_value(const char *key, char **envp);
 void				ft_sort(t_env *cmd);
 int					ft_cd(t_node *cmd, t_env *env);
 int					ft_echo(t_node *cmd);
-int					ft_env(t_env *cmd);
+int					ft_env(t_env *cmd, t_node *node);
 int					ft_exit(t_node *cmd, t_env *env);
 int					ft_export(t_node *cmd, t_env **env);
 int					ft_pwd(t_node *cmd);
@@ -148,7 +148,7 @@ int					builtin_requires_parent(t_node *cmd);
 t_env				*envp_dup(char **envp);
 char				**realloc_env(char **old_env, int old_size, int new_size);
 void				func_print(char **envp);
-void				ft_all(t_node **all_cmd, char *line, char **s_line,
+int					ft_all(t_node **all_cmd, char *line, char **s_line,
 						t_env *info);
 void				signal_setup(void);
 void				free_split(char **split);
@@ -203,8 +203,12 @@ void				exec_parent_block(t_exec_ctx *ctx, t_node *cmd);
 void				advance_command(t_node **cmd, t_exec_ctx *ctx);
 void				cleanup_command_heredoc_files(t_node *cmd);
 void				cleanup_after_commands(t_exec_ctx *ctx);
-void				handle_mc(t_node *cmd, t_env *env, int num_commands,
+void				handle_mc(t_node *cmd, t_env *env, int status,
 						t_exec_ctx *ctx);
+void				update_exit_status(int status);
 void				free_env(t_env *env);
+char				**expand_and_split(char *line, t_env *info);
+int					is_pipe_syntax_error(char *line, int i);
+int					lenght_cmd(char **arg);
 
 #endif

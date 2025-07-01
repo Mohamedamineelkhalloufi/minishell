@@ -6,11 +6,37 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 17:25:49 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/29 23:54:20 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:58:31 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	is_pipe_syntax_error(char *line, int i)
+{
+	if (line[i] && line[i] == '|')
+		return (-1);
+	while (line[i] && line[i] == ' ')
+	{
+		i++;
+		if (line[i] && line[i] == '|')
+			return (-1);
+	}
+	return (i);
+}
+
+char	**expand_and_split(char *line, t_env *info)
+{
+	char	*expanded;
+	char	**split_line;
+
+	expanded = expand_line(line, 0, ft_strdup(""), info);
+	if (!expanded)
+		return (NULL);
+	split_line = ft_split(expanded, '|');
+	free(expanded);
+	return (split_line);
+}
 
 int	ft_echo(t_node *cmd)
 {

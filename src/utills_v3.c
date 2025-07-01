@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 17:51:57 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/28 11:26:59 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 22:23:15 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	exec_builtins(t_node *cmd, t_env *env)
 		else if (ft_strcmp(cmd->cmd[0], "echo") == 0)
 			res = ft_echo(cmd);
 		else if (ft_strcmp(cmd->cmd[0], "env") == 0)
-			res = ft_env(env);
+			res = ft_env(env, cmd);
 		else if (ft_strcmp(cmd->cmd[0], "exit") == 0)
 			res = ft_exit(cmd, env);
 		else if (ft_strcmp(cmd->cmd[0], "export") == 0)

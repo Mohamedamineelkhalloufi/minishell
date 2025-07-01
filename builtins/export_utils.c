@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 16:24:28 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/29 10:31:33 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/06/30 18:45:16 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ char	*handle_value_update(t_export *info, char *old_value)
 	char	*tmp1;
 
 	if (info->append == 1)
-		tmp1 = ft_strjoin1(old_value, info->value);
+	{
+		if (!old_value)
+			tmp1 = ft_strdup(info->value);
+		else
+			tmp1 = ft_strjoin1(old_value, info->value);
+	}
 	else
 	{
 		if (info->value)

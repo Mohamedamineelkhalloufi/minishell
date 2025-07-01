@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:52:26 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/30 10:16:50 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 18:56:53 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ int	ft_exit(t_node *cmd, t_env *env)
 	{
 		if (!is_numeric(cmd->cmd[1]))
 		{
-			ft_putstr_fd("exit: numeric argument required\n", 2);
+			ft_putstr_fd("exit: numeric argument required", 2);
 			free_all_commands(cmd);
 			free_env(env);
 			exit(255);
 		}
 		if (cmd->cmd[2])
 		{
-			ft_putstr_fd("exit: too many arguments\n", 2);
+			ft_putstr_fd("exit: too many arguments", 2);
 			return (1);
 		}
 		exit_code = ft_atoi(cmd->cmd[1]) % 256;

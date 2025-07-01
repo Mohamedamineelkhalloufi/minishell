@@ -6,7 +6,7 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:12:05 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/30 10:43:54 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:32:49 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ void	init_exec_ctx(t_exec_ctx *ctx, int num_commands, t_node *cmd)
 	ctx->last_pid = -1;
 }
 
-void	handle_mc(t_node *cmd, t_env *env, int num_commands, t_exec_ctx *ctx)
+void	handle_mc(t_node *cmd, t_env *env, int status, t_exec_ctx *ctx)
 {
 	if (prepare_heredoc(ctx->temp_cmd, env) == -1)
 		return (cleanup_heredoc_files(ctx->temp_cmd), (void)0);
-	while (cmd && ctx->i < num_commands)
+	while (cmd && ctx->i < ctx->num_commands)
 	{
-		if (ctx->i < num_commands - 1)
+		if (ctx->i < ctx->num_commands - 1)
 			creat_pipe(ctx->pipefds);
-		if (is_builtin(cmd) && num_commands == 1)
+		if (is_builtin(cmd) && ctx->num_commands == 1)
 			single_command(&cmd, env, 0, 0);
 		else
 		{
@@ -65,7 +65,8 @@ void	handle_mc(t_node *cmd, t_env *env, int num_commands, t_exec_ctx *ctx)
 				exec_child_block(cmd, env, ctx);
 			else
 			{
-				waitpid(ctx->pid, NULL, 0);
+				waitpid(ctx->pid, &status, 0);
+				update_exit_status(status);
 				exec_parent_block(ctx, cmd);
 			}
 			advance_command(&cmd, ctx);

@@ -6,11 +6,19 @@
 /*   By: mohben-t <mohben-t@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 18:56:21 by mohben-t          #+#    #+#             */
-/*   Updated: 2025/06/20 16:36:54 by mohben-t         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:36:54 by mohben-t         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	update_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		g_es = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_es = 128 + WTERMSIG(status);
+}
 
 static int	get_key_a(const char *key, char **envp)
 {
