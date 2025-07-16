@@ -74,7 +74,6 @@ Minishell supports a range of functionalities to mimic Bash behavior:
 
 * `Ctrl-C` : interrupts and displays new prompt
 * `Ctrl-D` : exits shell
-* `Ctrl-\` : ignored
 
 ### ❌ Not Supported
 
